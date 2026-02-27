@@ -72,15 +72,15 @@
                 <div class="flex justify-center gap-4">
                     <button id="btn-yes" onclick="submitFeedback('yes')" class="flex items-center gap-2 px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-700 hover:text-primary hover:border-primary transition-all">
                         <span class="material-icons" aria-hidden="true">thumb_up</span>
-                        <span id="yes-count">Yes ({{ $article->helpful_yes_count }})</span>
+                        <span id="yes-count" aria-live="polite">Yes ({{ $article->helpful_yes_count }})</span>
                     </button>
                     <button id="btn-no" onclick="submitFeedback('no')" class="flex items-center gap-2 px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-700 hover:text-red-500 hover:border-red-500 transition-all">
                         <span class="material-icons" aria-hidden="true">thumb_down</span>
-                        <span id="no-count">No ({{ $article->helpful_no_count }})</span>
+                        <span id="no-count" aria-live="polite">No ({{ $article->helpful_no_count }})</span>
                     </button>
                 </div>
             </div>
-            <div id="feedback-thanks" class="hidden">
+            <div id="feedback-thanks" class="hidden" role="status" aria-live="polite" tabindex="-1">
                 <div class="flex items-center justify-center gap-3 text-primary">
                     <span class="material-icons text-3xl" aria-hidden="true">check_circle</span>
                     <span class="font-semibold text-lg">Thanks for your feedback!</span>
@@ -121,6 +121,13 @@
         document.getElementById('feedback-prompt').classList.add('hidden');
         document.getElementById('feedback-thanks').classList.remove('hidden');
     }
+
+    function showThanks() {
+        document.getElementById('feedback-prompt').classList.add('hidden');
+        var thanks = document.getElementById('feedback-thanks');
+        thanks.classList.remove('hidden');
+        thanks.focus();
+    }
 })();
 
 function submitFeedback(vote) {
@@ -143,8 +150,7 @@ function submitFeedback(vote) {
         if (result.status === 409) {
             // Already voted server-side — sync localStorage and show thanks
             localStorage.setItem('kb_feedback_{{ $article->id }}', 'voted');
-            document.getElementById('feedback-prompt').classList.add('hidden');
-            document.getElementById('feedback-thanks').classList.remove('hidden');
+            showThanks();
             return;
         }
 
@@ -160,8 +166,7 @@ function submitFeedback(vote) {
             }
 
             setTimeout(function() {
-                document.getElementById('feedback-prompt').classList.add('hidden');
-                document.getElementById('feedback-thanks').classList.remove('hidden');
+                showThanks();
             }, 800);
         }
     })
