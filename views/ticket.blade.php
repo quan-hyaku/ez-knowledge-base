@@ -23,7 +23,7 @@
                     <p class="text-slate-500 dark:text-slate-400">Please provide as much detail as possible so we can assist you better.</p>
                 </div>
 
-                <form action="{{ route('kb.ticket.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
+                <form action="{{ route('kb.ticket.store') }}" method="POST" class="space-y-6">
                     @csrf
 
                     <!-- Subject -->
@@ -138,30 +138,6 @@
                             >{{ old('description') }}</textarea>
                         </div>
                         @error('description')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- File Upload -->
-                    <div>
-                        <label class="block text-sm font-medium text-slate-900 dark:text-white mb-2">Attachments (Optional)</label>
-                        <div class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-8 text-center hover:border-primary/50 hover:bg-primary/5 transition-colors cursor-pointer group">
-                            <input
-                                type="file"
-                                name="attachments[]"
-                                multiple
-                                class="hidden"
-                                id="file-upload"
-                            />
-                            <label for="file-upload" class="cursor-pointer">
-                                <div class="flex justify-center mb-3">
-                                    <span class="material-icons text-4xl text-slate-400 group-hover:text-primary/50 transition-colors">cloud_upload</span>
-                                </div>
-                                <p class="text-sm font-medium text-slate-900 dark:text-white mb-1">Drag and drop your files here</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">or <span class="text-primary font-medium">click to browse</span></p>
-                            </label>
-                        </div>
-                        @error('attachments')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
                     </div>
