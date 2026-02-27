@@ -104,7 +104,10 @@ class KnowledgeBaseController
             }
         );
 
-        // View count is handled by TrackArticleView middleware (session-based unique counting)
+        // Store the resolved article on the request so TrackArticleView middleware can reuse it
+        // instead of re-querying the database
+        $request = request();
+        $request->attributes->set('kb_article', $article);
 
         // Get category sidebar navigation
         $sidebarArticles = $category->articles()

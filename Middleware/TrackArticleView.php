@@ -2,7 +2,6 @@
 
 namespace Packages\EzKnowledgeBase\Middleware;
 
-use App\Models\KbCategory;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +12,8 @@ class TrackArticleView
     /**
      * Track unique article views using session storage.
      * Only increments once per session per article.
+     * Reuses the article resolved by the controller (via request attributes)
+     * to avoid redundant database queries.
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -23,34 +24,22 @@ class TrackArticleView
             return $response;
         }
 
-        // Extract route parameters
-        $categorySlug = $request->route('category_slug');
-        $articleSlug = $request->route('slug');
+        // Reuse the article already resolved by the controller
+        $article = $request->attributes->get('kb_article');
 
-        if (! $categorySlug || ! $articleSlug) {
+        if (! $article) {
             return $response;
         }
 
         // Build a unique session key for this article
+        $categorySlug = $request->route('category_slug');
+        $articleSlug = $request->route('slug');
         $sessionKey = 'kb_viewed_' . $categorySlug . '_' . $articleSlug;
 
         // Only count if not already viewed in this session
         if (! $request->session()->has($sessionKey)) {
-            $category = KbCategory::where('slug', $categorySlug)
-                ->where('is_active', true)
-                ->first();
-
-            if ($category) {
-                $article = $category->articles()
-                    ->where('slug', $articleSlug)
-                    ->where('is_published', true)
-                    ->first();
-
-                if ($article) {
-                    DB::table('kb_articles')->where('id', $article->id)->increment('view_count');
-                    $request->session()->put($sessionKey, true);
-                }
-            }
+            DB::table('kb_articles')->where('id', $article->id)->increment('view_count');
+            $request->session()->put($sessionKey, true);
         }
 
         return $response;
