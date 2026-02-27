@@ -167,3 +167,20 @@
   - Each page only has one breadcrumb nav, so `aria-label="Breadcrumb"` is unique per page (no conflict with other nav landmarks)
   - Separator `<li>` elements don't need special roles — `aria-hidden="true"` on the separator span content is sufficient
 ---
+
+## 2026-02-27 - US-014
+- Fixed heading hierarchy across all 6 view files to eliminate skipped heading levels (WCAG 1.3.1)
+- **article.blade.php**: Changed sidebar category name from `<h5>` to `<h2>`, feedback heading from `<h3>` to `<h2>`, TOC "On this page" from `<h5>` to `<h2>`, "Need Help?" from `<h4>` to `<h3>`
+- **category.blade.php**: Changed sidebar category names from `<h5>` to `<h2>`, "Category Stats" and "Other Categories" from `<h4>` to `<h2>`, "Need Help?" from `<h4>` to `<h3>`
+- **landing.blade.php**: Changed category card names from `<h3>` to `<h2>`, article titles under "Popular Articles" from `<h4>` to `<h3>`
+- **categories.blade.php**: Changed "Trending Topics", "Need more help?", and "No Categories Found" from `<h3>` to `<h2>`
+- **search.blade.php**: Changed sidebar "Categories" heading from `<h3>` to `<h2>`
+- **layout.blade.php**: Changed footer column headings from `<h6>` to `<h2>`
+- All visual styling preserved via CSS classes — only the HTML heading tags were changed
+- Files changed: `views/article.blade.php`, `views/category.blade.php`, `views/landing.blade.php`, `views/categories.blade.php`, `views/search.blade.php`, `views/layout.blade.php`
+- **Learnings for future iterations:**
+  - Heading levels must not skip (e.g., H1→H5 is invalid) but can restart at H2 in different landmarks/sections
+  - Sidebar headings in `<aside>` landmarks can be H2 even if they appear before the H1 in DOM order — assistive tech navigates by landmarks
+  - The visual size of a heading is controlled by CSS classes, not the heading level — always use the semantically correct level
+  - ticket.blade.php already had correct hierarchy (H1→H2→H3), no changes needed
+---
