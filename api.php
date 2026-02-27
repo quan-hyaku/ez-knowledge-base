@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Packages\EzKnowledgeBase\Controllers\ApiController;
 
-Route::middleware(['api', 'throttle:' . config('kb.api.rate_limit', 60) . ',1', 'kb.api.auth'])
+Route::middleware(['api', 'kb.api.errors', 'throttle:' . config('kb.api.rate_limit', 60) . ',1', 'kb.api.auth'])
     ->prefix('api/kb')
     ->group(function () {
         Route::get('/', [ApiController::class, 'home'])->name('kb.api.home');

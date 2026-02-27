@@ -13,10 +13,14 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/config/kb.php', 'kb');
 
-        // Register API auth middleware alias
+        // Register API middleware aliases
         $this->app['router']->aliasMiddleware(
             'kb.api.auth',
             \Packages\EzKnowledgeBase\Middleware\ApiAuthenticate::class
+        );
+        $this->app['router']->aliasMiddleware(
+            'kb.api.errors',
+            \Packages\EzKnowledgeBase\Middleware\ApiExceptionHandler::class
         );
     }
 
