@@ -71,6 +71,12 @@ class AppServiceProvider extends ServiceProvider
             Cache::forget('kb_all_categories_with_top_articles');
             Cache::forget('kb_featured_articles');
             Cache::forget('kb_article_' . $article->slug);
+
+            // If slug changed, also invalidate the old slug's cache key
+            $originalSlug = $article->getOriginal('slug');
+            if ($originalSlug && $originalSlug !== $article->slug) {
+                Cache::forget('kb_article_' . $originalSlug);
+            }
         });
 
         KbArticle::deleted(function (KbArticle $article) {
