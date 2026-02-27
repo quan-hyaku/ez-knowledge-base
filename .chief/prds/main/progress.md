@@ -153,3 +153,17 @@
   - For icons that are the only content in a button (like toolbar buttons in ticket.blade.php), the buttons already have `title` attributes; proper `aria-label` on buttons is covered by US-030
   - A simple regex `class="material-icons[^"]*"(?!.*aria-hidden)` can verify all icons have been covered
 ---
+
+## 2026-02-27 - US-013
+- Fixed breadcrumb semantics across all 4 views: article, category, categories, ticket
+- Wrapped all breadcrumbs in `<nav aria-label="Breadcrumb">` (article, category, categories were using plain `<div>`, ticket already had `<nav>`)
+- Added `<ol>`/`<li>` structure to all breadcrumbs for proper list semantics
+- Added `aria-current="page"` to the current (last) breadcrumb item in each view
+- Added `aria-hidden="true"` to separator spans (`/` text and chevron_right icons)
+- Files changed: `views/article.blade.php`, `views/category.blade.php`, `views/categories.blade.php`, `views/ticket.blade.php`
+- **Learnings for future iterations:**
+  - There are 4 breadcrumb instances: article (3 levels), category (3 levels), categories (2 levels), ticket (3 levels)
+  - ticket.blade.php uses material icon chevron_right as separators while the other 3 views use plain `/` text — kept both styles as-is
+  - Each page only has one breadcrumb nav, so `aria-label="Breadcrumb"` is unique per page (no conflict with other nav landmarks)
+  - Separator `<li>` elements don't need special roles — `aria-hidden="true"` on the separator span content is sufficient
+---
