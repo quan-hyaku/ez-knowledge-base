@@ -2,10 +2,10 @@
 
 namespace Packages\EzKnowledgeBase\Middleware;
 
-use App\Models\KbArticle;
 use App\Models\KbCategory;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class TrackArticleView
@@ -47,7 +47,7 @@ class TrackArticleView
                     ->first();
 
                 if ($article) {
-                    $article->increment('view_count');
+                    DB::table('kb_articles')->where('id', $article->id)->increment('view_count');
                     $request->session()->put($sessionKey, true);
                 }
             }

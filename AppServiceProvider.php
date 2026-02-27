@@ -50,6 +50,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         KbArticle::saved(function (KbArticle $article) {
+            // Skip cache invalidation for tracking-only column changes (view_count, helpful counts)
+            $trackingColumns = ['view_count', 'helpful_yes_count', 'helpful_no_count'];
+            $changedKeys = array_keys($article->getChanges());
+            $meaningfulChanges = array_diff($changedKeys, array_merge($trackingColumns, ['updated_at']));
+
+            if (empty($meaningfulChanges)) {
+                return;
+            }
+
             Cache::forget('kb_categories_with_counts');
             Cache::forget('kb_all_categories_with_top_articles');
             Cache::forget('kb_featured_articles');
