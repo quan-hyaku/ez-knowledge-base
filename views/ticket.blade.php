@@ -13,6 +13,16 @@
         <span class="text-slate-900 dark:text-white font-medium">Submit a Ticket</span>
     </nav>
 
+    <!-- Success Banner -->
+    @if(session('success'))
+        <div role="alert" class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-start gap-3">
+            <span class="material-icons text-green-600 dark:text-green-400 mt-0.5">check_circle</span>
+            <div>
+                <p class="font-medium text-green-800 dark:text-green-200">{{ session('success') }}</p>
+            </div>
+        </div>
+    @endif
+
     <!-- Main Grid -->
     <div class="grid lg:grid-cols-12 gap-8">
         <!-- Form Section -->
