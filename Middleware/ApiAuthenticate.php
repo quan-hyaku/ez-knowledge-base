@@ -13,7 +13,7 @@ class ApiAuthenticate
         // 1. Check static API key from .env
         $apiKey = config('kb.api.key');
 
-        if ($apiKey && $request->header('X-KB-API-Key') === $apiKey) {
+        if ($apiKey && hash_equals($apiKey, $request->header('X-KB-API-Key') ?? '')) {
             return $next($request);
         }
 
