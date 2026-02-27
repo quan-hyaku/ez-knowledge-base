@@ -7,9 +7,19 @@
         "php": "^8.1",
         "illuminate/support": "^10.0|^11.0|^12.0"
     },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
     "autoload": {
         "psr-4": {
             "EzKnowledgeBase\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EzKnowledgeBase\\Tests\\": "tests/",
+            "App\\Models\\": "tests/Fixtures/"
         }
     },
     "extra": {

@@ -25,6 +25,7 @@ class EzKnowledgeBaseServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'kb');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         // Publish config so the host app can override branding
         $this->publishes([
@@ -36,31 +37,40 @@ class EzKnowledgeBaseServiceProvider extends ServiceProvider
             __DIR__ . '/../public/KB-logo.png' => public_path('vendor/kb/KB-logo.png'),
         ], 'kb-assets');
 
+        // Publish migrations
+        $this->publishes([
+            __DIR__ . '/../database/migrations' => database_path('migrations'),
+        ], 'kb-migrations');
+
         // Register cache invalidation listeners
-        KbCategory::saved(function (KbCategory $category) {
-            Cache::forget('kb_categories_with_counts');
-            Cache::forget('kb_all_categories_with_top_articles');
-            Cache::forget('kb_featured_articles');
-        });
+        if (class_exists(KbCategory::class)) {
+            KbCategory::saved(function (KbCategory $category) {
+                Cache::forget('kb_categories_with_counts');
+                Cache::forget('kb_all_categories_with_top_articles');
+                Cache::forget('kb_featured_articles');
+            });
 
-        KbCategory::deleted(function (KbCategory $category) {
-            Cache::forget('kb_categories_with_counts');
-            Cache::forget('kb_all_categories_with_top_articles');
-            Cache::forget('kb_featured_articles');
-        });
+            KbCategory::deleted(function (KbCategory $category) {
+                Cache::forget('kb_categories_with_counts');
+                Cache::forget('kb_all_categories_with_top_articles');
+                Cache::forget('kb_featured_articles');
+            });
+        }
 
-        KbArticle::saved(function (KbArticle $article) {
-            Cache::forget('kb_categories_with_counts');
-            Cache::forget('kb_all_categories_with_top_articles');
-            Cache::forget('kb_featured_articles');
-            Cache::forget('kb_article_' . $article->slug);
-        });
+        if (class_exists(KbArticle::class)) {
+            KbArticle::saved(function (KbArticle $article) {
+                Cache::forget('kb_categories_with_counts');
+                Cache::forget('kb_all_categories_with_top_articles');
+                Cache::forget('kb_featured_articles');
+                Cache::forget('kb_article_' . $article->slug);
+            });
 
-        KbArticle::deleted(function (KbArticle $article) {
-            Cache::forget('kb_categories_with_counts');
-            Cache::forget('kb_all_categories_with_top_articles');
-            Cache::forget('kb_featured_articles');
-            Cache::forget('kb_article_' . $article->slug);
-        });
+            KbArticle::deleted(function (KbArticle $article) {
+                Cache::forget('kb_categories_with_counts');
+                Cache::forget('kb_all_categories_with_top_articles');
+                Cache::forget('kb_featured_articles');
+                Cache::forget('kb_article_' . $article->slug);
+            });
+        }
     }
 }
