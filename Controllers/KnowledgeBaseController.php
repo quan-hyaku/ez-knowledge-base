@@ -129,15 +129,17 @@ class KnowledgeBaseController
         return view('kb::article', compact('article', 'category', 'sidebarArticles', 'toc', 'parsedBody'));
     }
 
-    public function feedback($id, Request $request)
+    public function feedback(int $id, Request $request)
     {
+        $validated = $request->validate([
+            'vote' => 'required|in:yes,no',
+        ]);
+
         $article = KbArticle::findOrFail($id);
 
-        $vote = $request->input('vote');
-
-        if ($vote === 'yes') {
+        if ($validated['vote'] === 'yes') {
             $article->increment('helpful_yes_count');
-        } elseif ($vote === 'no') {
+        } else {
             $article->increment('helpful_no_count');
         }
 

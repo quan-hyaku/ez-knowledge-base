@@ -28,8 +28,8 @@ class TicketController
     {
         $validated = $request->validate([
             'subject' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category' => 'nullable|string',
+            'description' => 'required|string|max:10000',
+            'category' => 'nullable|in:billing,technical,feature,general,other',
             'urgency' => 'nullable|in:low,medium,high',
             'name' => 'required|string|max:255',
             'email' => 'required|email',

@@ -175,6 +175,11 @@ class ApiController
      */
     public function search(Request $request): JsonResponse
     {
+        $request->validate([
+            'q' => 'nullable|string|max:500',
+            'category' => 'nullable|string|exists:kb_categories,slug',
+        ]);
+
         $query = $request->input('q', '');
         $categoryFilter = $request->input('category', null);
 
