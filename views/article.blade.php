@@ -105,13 +105,54 @@
         </div>
     </main>
 
+    <!-- Mobile TOC Toggle -->
+    @if(count($toc) > 0)
+    <div class="lg:hidden fixed bottom-6 right-6 z-40">
+        <button
+            id="mobile-toc-toggle"
+            aria-expanded="false"
+            aria-controls="mobile-toc-panel"
+            class="flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
+        >
+            <span class="material-icons text-sm" aria-hidden="true">toc</span>
+            <span class="text-sm font-medium">On this page</span>
+        </button>
+    </div>
+
+    <!-- Mobile TOC Overlay -->
+    <div id="mobile-toc-backdrop" class="lg:hidden fixed inset-0 bg-black/50 z-40 hidden" aria-hidden="true"></div>
+    <div
+        id="mobile-toc-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Table of contents"
+        class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 rounded-t-2xl shadow-2xl transform translate-y-full transition-transform duration-300 max-h-[70vh] flex flex-col"
+    >
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">On this page</h2>
+            <button id="mobile-toc-close" class="p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors" aria-label="Close table of contents">
+                <span class="material-icons" aria-hidden="true">close</span>
+            </button>
+        </div>
+        <nav aria-label="Table of contents" class="overflow-y-auto p-4">
+            <ul class="space-y-3 text-sm">
+                @foreach($toc as $heading)
+                <li>
+                    <a class="mobile-toc-link block py-1.5 px-3 rounded-lg text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors" href="#{{ $heading['id'] }}" data-heading-id="{{ $heading['id'] }}">{{ $heading['text'] }}</a>
+                </li>
+                @endforeach
+            </ul>
+        </nav>
+    </div>
+    @endif
+
     <!-- RIGHT SIDEBAR - Table of Contents -->
     <aside aria-label="Table of contents" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pl-4 border-l border-slate-200 dark:border-slate-800">
         <h2 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-6">On this page</h2>
         <nav aria-label="Table of contents">
             <ul class="space-y-4 text-sm">
                 @foreach($toc as $index => $heading)
-                <li><a class="{{ $index === 0 ? 'text-primary font-medium flex items-center gap-2 border-l-2 border-primary pl-4 -ml-[17px]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors pl-4' }}" href="#{{ $heading['id'] }}">{{ $heading['text'] }}</a></li>
+                <li><a class="toc-link {{ $index === 0 ? 'text-primary font-medium flex items-center gap-2 border-l-2 border-primary pl-4 -ml-[17px]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors pl-4' }}" href="#{{ $heading['id'] }}" data-heading-id="{{ $heading['id'] }}">{{ $heading['text'] }}</a></li>
                 @endforeach
             </ul>
         </nav>
@@ -144,6 +185,106 @@
         thanks.classList.remove('hidden');
         thanks.focus();
     }
+})();
+
+// Mobile TOC toggle
+(function() {
+    var toggle = document.getElementById('mobile-toc-toggle');
+    var panel = document.getElementById('mobile-toc-panel');
+    var backdrop = document.getElementById('mobile-toc-backdrop');
+    var closeBtn = document.getElementById('mobile-toc-close');
+    if (!toggle || !panel) return;
+
+    function openToc() {
+        backdrop.classList.remove('hidden');
+        panel.classList.remove('translate-y-full');
+        panel.classList.add('translate-y-0');
+        toggle.setAttribute('aria-expanded', 'true');
+        closeBtn.focus();
+    }
+
+    function closeToc() {
+        panel.classList.remove('translate-y-0');
+        panel.classList.add('translate-y-full');
+        backdrop.classList.add('hidden');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.focus();
+    }
+
+    toggle.addEventListener('click', openToc);
+    closeBtn.addEventListener('click', closeToc);
+    backdrop.addEventListener('click', closeToc);
+
+    panel.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeToc();
+    });
+
+    // Close TOC when a link is clicked
+    var mobileLinks = panel.querySelectorAll('.mobile-toc-link');
+    mobileLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            closeToc();
+        });
+    });
+})();
+
+// TOC active state via IntersectionObserver
+(function() {
+    var tocLinks = document.querySelectorAll('.toc-link');
+    var mobileTocLinks = document.querySelectorAll('.mobile-toc-link');
+    var allLinks = Array.prototype.slice.call(tocLinks).concat(Array.prototype.slice.call(mobileTocLinks));
+    if (allLinks.length === 0) return;
+
+    var headingIds = [];
+    allLinks.forEach(function(link) {
+        var id = link.getAttribute('data-heading-id');
+        if (id && headingIds.indexOf(id) === -1) headingIds.push(id);
+    });
+
+    var activeId = headingIds[0] || null;
+
+    function setActive(id) {
+        if (activeId === id) return;
+        activeId = id;
+
+        tocLinks.forEach(function(link) {
+            var isActive = link.getAttribute('data-heading-id') === id;
+            if (isActive) {
+                link.className = 'toc-link text-primary font-medium flex items-center gap-2 border-l-2 border-primary pl-4 -ml-[17px]';
+                link.setAttribute('aria-current', 'true');
+            } else {
+                link.className = 'toc-link text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors pl-4';
+                link.removeAttribute('aria-current');
+            }
+        });
+
+        mobileTocLinks.forEach(function(link) {
+            var isActive = link.getAttribute('data-heading-id') === id;
+            if (isActive) {
+                link.className = 'mobile-toc-link block py-1.5 px-3 rounded-lg text-primary font-medium bg-primary/10 transition-colors';
+                link.setAttribute('aria-current', 'true');
+            } else {
+                link.className = 'mobile-toc-link block py-1.5 px-3 rounded-lg text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors';
+                link.removeAttribute('aria-current');
+            }
+        });
+    }
+
+    // Set initial active
+    setActive(headingIds[0]);
+
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                setActive(entry.target.id);
+            }
+        });
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+
+    headingIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) observer.observe(el);
+    });
 })();
 
 function submitFeedback(vote) {
