@@ -7,6 +7,7 @@
 - Cache keys follow pattern: `kb_article_{slug}`, `kb_categories_with_counts`, `kb_featured_articles`, `kb_all_categories_with_top_articles`
 - Namespace: `Packages\EzKnowledgeBase\`
 - Use `DB::table()->increment()` instead of `$model->increment()` for tracking columns to avoid triggering Eloquent model events and cache invalidation
+- Use `$request->attributes->set/get()` to pass resolved models between controller and middleware (avoids redundant DB queries)
 - Cache invalidation listeners are in `AppServiceProvider::boot()` using Eloquent closure listeners (not Observer classes)
 
 ---
@@ -104,4 +105,17 @@
   - Use `withCount(['articles' => fn($q) => $q->where(...)])` to get filtered counts without extra queries — result is available as `articles_count`
   - Laravel collection `->where()` works on already-loaded collections without touching DB — useful for deriving subsets from a single query
   - Eager loading with `->with(['articles' => fn($q) => $q->limit(5)])` applies the limit per-query but note: with multiple parent records, the limit applies globally to the eager load query, not per-parent. For sidebar display with small datasets this is acceptable.
+---
+
+## 2026-02-27 - US-009
+- Eliminated redundant database queries in TrackArticleView middleware
+- Controller now stores the resolved article on `$request->attributes` (`kb_article` key) after resolving it
+- Middleware reads `$request->attributes->get('kb_article')` instead of re-querying category + article from the database
+- Removed the `KbCategory` import from the middleware (no longer needed)
+- View tracking still only fires on successful 200 responses (checked before accessing article)
+- Files changed: `Middleware/TrackArticleView.php`, `Controllers/KnowledgeBaseController.php`
+- **Learnings for future iterations:**
+  - `$request->attributes` (Symfony ParameterBag) is the proper way to pass data between middleware and controllers — it's separate from query/post params
+  - Since middleware wraps the controller call (`$next($request)` runs the controller first), the controller can set attributes that the middleware reads after `$next()` returns
+  - Removing unused imports (like `KbCategory`) keeps the code clean and avoids confusion about dependencies
 ---
