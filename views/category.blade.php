@@ -11,7 +11,7 @@
                 <div>
                     <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">{{ $cat->name }}</h5>
                     <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-400">
-                        @foreach($cat->articles()->where('is_published', true)->limit(5)->get() as $catArticle)
+                        @foreach($cat->articles as $catArticle)
                             <li>
                                 <a class="{{ $cat->id === $category->id ? 'text-primary font-semibold' : 'hover:text-primary transition-colors' }}" href="{{ route('kb.article', [$cat->slug, $catArticle->slug]) }}">{{ $catArticle->title }}</a>
                             </li>
@@ -102,7 +102,7 @@
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-sm text-slate-600 dark:text-slate-400">Total Articles</span>
-                    <span class="text-lg font-bold text-primary">{{ $category->articles()->where('is_published', true)->count() }}</span>
+                    <span class="text-lg font-bold text-primary">{{ $category->articles_count }}</span>
                 </div>
             </div>
         </div>

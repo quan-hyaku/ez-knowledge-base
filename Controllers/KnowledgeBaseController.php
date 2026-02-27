@@ -66,22 +66,23 @@ class KnowledgeBaseController
     {
         $category = KbCategory::where('slug', $slug)
             ->where('is_active', true)
+            ->withCount(['articles' => function ($query) {
+                $query->where('is_published', true);
+            }])
             ->firstOrFail();
 
         $articles = $category->articles()
             ->where('is_published', true)
             ->paginate(15);
 
-        // Sidebar: all categories with their published articles
+        // Sidebar: all categories with their published articles (eager-loaded)
         $allCategories = KbCategory::where('is_active', true)
+            ->with(['articles' => fn($q) => $q->where('is_published', true)->limit(5)])
             ->orderBy('sort_order')
             ->get();
 
-        // Related categories (other categories excluding current)
-        $relatedCategories = KbCategory::where('is_active', true)
-            ->where('id', '!=', $category->id)
-            ->orderBy('sort_order')
-            ->get();
+        // Related categories derived from $allCategories (no extra query)
+        $relatedCategories = $allCategories->where('id', '!=', $category->id);
 
         return view('kb::category', compact('category', 'articles', 'allCategories', 'relatedCategories'));
     }
