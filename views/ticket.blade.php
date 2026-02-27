@@ -5,7 +5,7 @@
 @section('content')
 <div class="py-4">
     <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 text-sm mb-8 text-slate-500 dark:text-slate-400">
+    <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-slate-500 dark:text-slate-400">
         <a class="hover:text-primary transition-colors" href="{{ route('kb.landing') }}">Home</a>
         <span class="material-icons text-xs">chevron_right</span>
         <a class="hover:text-primary transition-colors" href="#">Support</a>

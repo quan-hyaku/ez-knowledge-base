@@ -5,7 +5,7 @@
 @section('content')
 <div class="flex flex-col lg:flex-row gap-8">
     <!-- Sidebar Filters -->
-    <aside class="w-full lg:w-64 flex-shrink-0">
+    <aside aria-label="Search filters" class="w-full lg:w-64 flex-shrink-0">
         <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
             <h3 class="font-semibold text-slate-900 dark:text-white mb-4">Categories</h3>
             <div class="space-y-3 mb-6">

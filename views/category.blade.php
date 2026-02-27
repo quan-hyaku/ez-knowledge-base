@@ -5,7 +5,7 @@
 @section('content')
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
     <!-- LEFT SIDEBAR - Category Navigation -->
-    <aside class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pr-4">
+    <aside aria-label="Category navigation" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pr-4">
         <div class="space-y-8">
             @forelse($allCategories as $cat)
                 <div>
@@ -95,7 +95,7 @@
     </main>
 
     <!-- RIGHT SIDEBAR -->
-    <aside class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pl-4 border-l border-slate-200 dark:border-slate-800">
+    <aside aria-label="Category details" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pl-4 border-l border-slate-200 dark:border-slate-800">
         <!-- Category Stats Box -->
         <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-8">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Category Stats</h4>

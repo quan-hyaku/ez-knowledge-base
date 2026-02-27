@@ -33,6 +33,7 @@
     @stack('styles')
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50">Skip to main content</a>
     <!-- Header Navigation -->
     <header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
         <div class="w-full px-6 lg:px-10 h-16 flex items-center justify-between">
@@ -44,7 +45,7 @@
                         <img src="{{ asset('vendor/kb/KB-logo.png') }}" alt="{{ config('kb.logo.alt') }}" class="{{ config('kb.logo.header_height') }} w-auto">
                     @endif
                 </a>
-                <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
+                <nav aria-label="Main navigation" class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-400">
                     <a class="hover:text-primary transition-colors" href="{{ route('kb.landing') }}">Home</a>
                     <a class="hover:text-primary transition-colors" href="{{ route('kb.categories') }}">Categories</a>
                 </nav>
@@ -65,7 +66,7 @@
         </div>
     </header>
 
-    <div class="w-full px-6 lg:px-10 py-8">
+    <div id="main-content" class="w-full px-6 lg:px-10 py-8">
         @yield('content')
     </div>
 

@@ -3,7 +3,7 @@
 @section('content')
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
     <!-- LEFT SIDEBAR - Category Navigation -->
-    <aside class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pr-4">
+    <aside aria-label="Category navigation" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pr-4">
         <div class="space-y-8">
             <div>
                 <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">{{ $category->name }}</h5>
@@ -54,7 +54,7 @@
         </article>
 
         <!-- Prev/Next Navigation -->
-        <nav class="flex justify-between items-center my-12 pt-8 border-t border-slate-200 dark:border-slate-800">
+        <nav aria-label="Article navigation" class="flex justify-between items-center my-12 pt-8 border-t border-slate-200 dark:border-slate-800">
             <div>
                 <!-- Previous article link can go here -->
             </div>
@@ -88,9 +88,9 @@
     </main>
 
     <!-- RIGHT SIDEBAR - Table of Contents -->
-    <aside class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pl-4 border-l border-slate-200 dark:border-slate-800">
+    <aside aria-label="Table of contents" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pl-4 border-l border-slate-200 dark:border-slate-800">
         <h5 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-6">On this page</h5>
-        <nav>
+        <nav aria-label="Table of contents">
             <ul class="space-y-4 text-sm">
                 @foreach($toc as $index => $heading)
                 <li><a class="{{ $index === 0 ? 'text-primary font-medium flex items-center gap-2 border-l-2 border-primary pl-4 -ml-[17px]' : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors pl-4' }}" href="#{{ $heading['id'] }}">{{ $heading['text'] }}</a></li>
