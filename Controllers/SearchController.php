@@ -12,17 +12,37 @@ class SearchController
     {
         $query = $request->input('q', '');
         $categoryFilter = $request->input('category', null);
+        $sort = $request->input('sort', 'relevance');
+
+        if (!in_array($sort, ['relevance', 'recent', 'oldest'])) {
+            $sort = 'relevance';
+        }
 
         if (empty(trim($query))) {
-            $articles = KbArticle::query()
+            $builder = KbArticle::query()
                 ->where('is_published', true)
-                ->with('category')
-                ->paginate(10);
+                ->with('category');
+
+            if ($categoryFilter) {
+                $builder->whereHas('category', function ($q) use ($categoryFilter) {
+                    $q->where('slug', $categoryFilter);
+                });
+            }
+
+            if ($sort === 'recent') {
+                $builder->orderBy('updated_at', 'desc');
+            } elseif ($sort === 'oldest') {
+                $builder->orderBy('updated_at', 'asc');
+            } else {
+                $builder->orderBy('updated_at', 'desc');
+            }
+
+            $articles = $builder->paginate(10);
         } else {
             // Use Laravel Scout full-text search with TNTSearch
             $searchQuery = KbArticle::search($query);
 
-            $articles = $searchQuery->query(function ($builder) use ($categoryFilter) {
+            $articles = $searchQuery->query(function ($builder) use ($categoryFilter, $sort) {
                 $builder->where('is_published', true)
                     ->with('category');
 
@@ -31,6 +51,12 @@ class SearchController
                         $q->where('slug', $categoryFilter);
                     });
                 }
+
+                if ($sort === 'recent') {
+                    $builder->orderBy('updated_at', 'desc');
+                } elseif ($sort === 'oldest') {
+                    $builder->orderBy('updated_at', 'asc');
+                }
             })->paginate(10);
         }
 
@@ -38,6 +64,6 @@ class SearchController
             ->orderBy('sort_order')
             ->get();
 
-        return view('kb::search', compact('articles', 'query', 'categories'));
+        return view('kb::search', compact('articles', 'query', 'categories', 'categoryFilter', 'sort'));
     }
 }

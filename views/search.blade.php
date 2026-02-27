@@ -6,28 +6,33 @@
 <div class="flex flex-col lg:flex-row gap-8">
     <!-- Sidebar Filters -->
     <aside aria-label="Search filters" class="w-full lg:w-64 flex-shrink-0">
-        <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
-            <h2 class="font-semibold text-slate-900 dark:text-white mb-4">Categories</h2>
-            <div class="space-y-3 mb-6">
-                @foreach($categories as $category)
-                    <label class="flex items-center gap-3 cursor-pointer group">
-                        <input
-                            type="checkbox"
-                            name="categories[]"
-                            value="{{ $category->id }}"
-                            class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
-                            {{ request('categories') && in_array($category->id, (array)request('categories')) ? 'checked' : '' }}
-                        />
-                        <span class="text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">
-                            {{ $category->name }}
-                        </span>
-                    </label>
-                @endforeach
-            </div>
-            <button class="w-full text-sm font-medium text-primary hover:text-primary/80 transition-colors py-2 px-3 rounded hover:bg-slate-100 dark:hover:bg-slate-800">
+        <form id="filter-form" method="GET" action="{{ route('kb.search') }}" class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800">
+            <input type="hidden" name="q" value="{{ $query }}">
+            <input type="hidden" name="sort" id="sort-hidden" value="{{ $sort }}">
+            <fieldset>
+                <legend class="font-semibold text-slate-900 dark:text-white mb-4">Categories</legend>
+                <div class="space-y-3 mb-6">
+                    @foreach($categories as $category)
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input
+                                type="radio"
+                                name="category"
+                                value="{{ $category->slug }}"
+                                class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
+                                {{ $categoryFilter === $category->slug ? 'checked' : '' }}
+                                onchange="this.form.submit()"
+                            />
+                            <span class="text-sm text-slate-700 dark:text-slate-300 group-hover:text-primary transition-colors">
+                                {{ $category->name }}
+                            </span>
+                        </label>
+                    @endforeach
+                </div>
+            </fieldset>
+            <button type="button" onclick="clearFilters()" class="w-full text-sm font-medium text-primary hover:text-primary/80 transition-colors py-2 px-3 rounded hover:bg-slate-100 dark:hover:bg-slate-800">
                 Clear all filters
             </button>
-        </div>
+        </form>
     </aside>
 
     <!-- Main Content -->
@@ -37,10 +42,21 @@
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
                     <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                        Search Results
+                        @if(empty(trim($query)))
+                            Browse all articles
+                        @else
+                            Search Results
+                        @endif
                     </h1>
                     <p class="text-slate-600 dark:text-slate-400">
-                        @if($articles->total() > 0)
+                        @if(empty(trim($query)))
+                            @if($articles->total() > 0)
+                                Showing <span class="font-semibold">{{ $articles->total() }}</span>
+                                article{{ $articles->total() !== 1 ? 's' : '' }}
+                            @else
+                                No articles found
+                            @endif
+                        @elseif($articles->total() > 0)
                             Found <span class="font-semibold">{{ $articles->total() }}</span>
                             result{{ $articles->total() !== 1 ? 's' : '' }} for "<span class="font-semibold">{{ $query }}</span>"
                         @else
@@ -49,11 +65,11 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <label for="sort" class="text-sm font-medium text-slate-700 dark:text-slate-300">Sort by:</label>
-                    <select id="sort" class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary">
-                        <option value="relevance">Relevance</option>
-                        <option value="recent">Most Recent</option>
-                        <option value="oldest">Oldest First</option>
+                    <label for="sort-select" class="text-sm font-medium text-slate-700 dark:text-slate-300">Sort by:</label>
+                    <select id="sort-select" class="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary" onchange="updateSort(this.value)">
+                        <option value="relevance" {{ $sort === 'relevance' ? 'selected' : '' }}>Relevance</option>
+                        <option value="recent" {{ $sort === 'recent' ? 'selected' : '' }}>Most Recent</option>
+                        <option value="oldest" {{ $sort === 'oldest' ? 'selected' : '' }}>Oldest First</option>
                     </select>
                 </div>
             </div>
@@ -87,7 +103,7 @@
 
             <!-- Pagination -->
             <div class="mb-12">
-                {{ $articles->appends(['q' => $query])->links() }}
+                {{ $articles->appends(array_filter(['q' => $query, 'category' => $categoryFilter, 'sort' => $sort !== 'relevance' ? $sort : null]))->links() }}
             </div>
         @else
             <!-- Empty State -->
@@ -119,3 +135,20 @@
     </main>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+function updateSort(value) {
+    var hidden = document.getElementById('sort-hidden');
+    if (hidden) {
+        hidden.value = value;
+        document.getElementById('filter-form').submit();
+    }
+}
+
+function clearFilters() {
+    var url = '{{ route("kb.search") }}?q=' + encodeURIComponent('{{ $query }}');
+    window.location.href = url;
+}
+</script>
+@endpush
