@@ -43,3 +43,17 @@
   - The `exists:table,column` validation rule checks against the database directly — useful for validating slugs
   - Feedback endpoint sends JSON via fetch API, so Laravel validation returns JSON 422 automatically
 ---
+
+## 2026-02-27 - US-004
+- Added server-side feedback vote deduplication using Laravel session storage
+- Controller checks `session('kb_feedback_{id}')` before allowing a vote; duplicate votes return 409 with current counts
+- After successful vote, the vote value is stored in the session via `$request->session()->put()`
+- Client-side localStorage check retained as UX optimization (prevents unnecessary requests)
+- JavaScript updated to handle 409 responses gracefully — syncs localStorage and shows "thanks" message
+- Files changed: `Controllers/KnowledgeBaseController.php`, `views/article.blade.php`
+- **Learnings for future iterations:**
+  - All web routes are inside `Route::middleware('web')` group, so sessions are available on all endpoints including the feedback POST
+  - Session-based dedup is simpler than a dedicated table — no migration needed, works out of the box
+  - When returning non-200 JSON responses, the fetch API doesn't reject — need to check `response.status` in the `.then()` chain
+  - The `increment()` method updates the DB but also updates the in-memory model attribute, so returning `$article->helpful_yes_count` after increment gives the correct value
+---
