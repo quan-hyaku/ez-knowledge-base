@@ -17,8 +17,14 @@ class ApiController
      *
      * Returns categories with article counts and featured/popular articles.
      */
-    public function home(): JsonResponse
+    public function home(Request $request): JsonResponse
     {
+        $request->validate([
+            'limit' => 'nullable|integer|min:1|max:100',
+        ]);
+
+        $limit = (int) $request->input('limit', 20);
+
         $categories = Cache::remember(
             'kb_categories_with_counts',
             3600,
@@ -46,7 +52,7 @@ class ApiController
 
         return response()->json([
             'data' => [
-                'categories' => $categories->map(function ($category) {
+                'categories' => $categories->take($limit)->map(function ($category) {
                     return [
                         'id' => $category->id,
                         'name' => $category->name,
