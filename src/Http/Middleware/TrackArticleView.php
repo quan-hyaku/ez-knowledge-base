@@ -1,6 +1,6 @@
 <?php
 
-namespace Packages\EzKnowledgeBase\Middleware;
+namespace EzKnowledgeBase\Http\Middleware;
 
 use App\Models\KbArticle;
 use App\Models\KbCategory;

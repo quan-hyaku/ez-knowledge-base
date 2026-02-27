@@ -1,39 +1,39 @@
 <?php
 
-namespace Packages\EzKnowledgeBase;
+namespace EzKnowledgeBase;
 
 use App\Models\KbArticle;
 use App\Models\KbCategory;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class EzKnowledgeBaseServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/config/kb.php', 'kb');
+        $this->mergeConfigFrom(__DIR__ . '/../config/kb.php', 'kb');
 
         // Register API auth middleware alias
         $this->app['router']->aliasMiddleware(
             'kb.api.auth',
-            \Packages\EzKnowledgeBase\Middleware\ApiAuthenticate::class
+            \EzKnowledgeBase\Http\Middleware\ApiAuthenticate::class
         );
     }
 
     public function boot()
     {
-        $this->loadRoutesFrom(__DIR__ . '/web.php');
-        $this->loadRoutesFrom(__DIR__ . '/api.php');
-        $this->loadViewsFrom(__DIR__ . '/views', 'kb');
+        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'kb');
 
         // Publish config so the host app can override branding
         $this->publishes([
-            __DIR__ . '/config/kb.php' => config_path('kb.php'),
+            __DIR__ . '/../config/kb.php' => config_path('kb.php'),
         ], 'kb-config');
 
         // Publish default logo asset
         $this->publishes([
-            __DIR__ . '/assets/KB-logo.png' => public_path('vendor/kb/KB-logo.png'),
+            __DIR__ . '/../public/KB-logo.png' => public_path('vendor/kb/KB-logo.png'),
         ], 'kb-assets');
 
         // Register cache invalidation listeners

@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Packages\EzKnowledgeBase\Controllers\KnowledgeBaseController;
-use Packages\EzKnowledgeBase\Controllers\SearchController;
-use Packages\EzKnowledgeBase\Controllers\TicketController;
-use Packages\EzKnowledgeBase\Middleware\TrackArticleView;
+use EzKnowledgeBase\Http\Controllers\KnowledgeBaseController;
+use EzKnowledgeBase\Http\Controllers\SearchController;
+use EzKnowledgeBase\Http\Controllers\TicketController;
+use EzKnowledgeBase\Http\Middleware\TrackArticleView;
 
 Route::middleware('web')->group(function () {
     Route::get('/help-center', [KnowledgeBaseController::class, 'landing'])->name('kb.landing');

@@ -19,37 +19,25 @@ A self-contained Laravel package that provides a fully themed knowledge base wit
 ## Requirements
 
 - PHP 8.1+
-- Laravel 10 or 11
+- Laravel 10, 11, or 12
 - Laravel Scout + TNTSearch driver (for search)
 - Laravel Sanctum (optional, for token-based API auth)
 
 ## Installation
 
-The package lives in `packages/EzKnowledgeBase` and is autoloaded via the `Packages\\` PSR-4 namespace in `composer.json`.
+### 1. Install via Composer
 
-### 1. Register the service provider
+```bash
+composer require weeklify/ez-knowledge-base
+```
 
-Add to `config/app.php` providers array (or rely on auto-discovery):
+The service provider is auto-discovered via Laravel's package discovery. If you need to register it manually, add to `config/app.php` providers array:
 
 ```php
-Packages\EzKnowledgeBase\AppServiceProvider::class,
+EzKnowledgeBase\EzKnowledgeBaseServiceProvider::class,
 ```
 
-### 2. Run migrations
-
-```bash
-php artisan migrate
-```
-
-This creates the `kb_categories`, `kb_articles`, `kb_tags`, `kb_article_tag`, and `kb_tickets` tables.
-
-### 3. Seed sample data
-
-```bash
-php artisan db:seed --class=KbSeeder
-```
-
-### 4. Publish assets
+### 2. Publish config and assets
 
 ```bash
 # Publish the config file to config/kb.php
@@ -57,6 +45,20 @@ php artisan vendor:publish --tag=kb-config
 
 # Publish the default logo to public/vendor/kb/
 php artisan vendor:publish --tag=kb-assets
+```
+
+### 3. Run migrations
+
+```bash
+php artisan migrate
+```
+
+This creates the `kb_categories`, `kb_articles`, `kb_tags`, `kb_article_tag`, and `kb_tickets` tables.
+
+### 4. Seed sample data (optional)
+
+```bash
+php artisan db:seed --class=KbSeeder
 ```
 
 ### 5. Set up search (optional but recommended)
@@ -241,30 +243,35 @@ The `config/kb.php` file is organised into these sections:
 ## Package Structure
 
 ```
-packages/EzKnowledgeBase/
-├── AppServiceProvider.php           # Service provider (config, routes, middleware, cache)
-├── web.php                          # Web route definitions
-├── api.php                          # API route definitions
+EzKnowledgeBase/
+├── composer.json
 ├── config/
-│   └── kb.php                       # All branding and feature configuration
-├── assets/
-│   └── KB-logo.png                  # Default bundled logo
-├── Controllers/
-│   ├── KnowledgeBaseController.php  # Web pages (landing, category, article)
-│   ├── SearchController.php         # Web search
-│   ├── TicketController.php         # Support ticket form
-│   └── ApiController.php            # REST API endpoints
-├── Middleware/
-│   ├── TrackArticleView.php         # Session-based unique view counting
-│   └── ApiAuthenticate.php          # Dual auth: API key or Sanctum
-└── views/
-    ├── layout.blade.php             # Base layout (header, footer, Tailwind config)
-    ├── landing.blade.php            # Home page
-    ├── categories.blade.php         # All categories
-    ├── category.blade.php           # Single category
-    ├── article.blade.php            # Single article
-    ├── search.blade.php             # Search results
-    └── ticket.blade.php             # Support ticket form
+│   └── kb.php                              # All branding and feature configuration
+├── public/
+│   └── KB-logo.png                         # Default bundled logo
+├── resources/
+│   └── views/
+│       ├── layout.blade.php                # Base layout (header, footer, Tailwind config)
+│       ├── landing.blade.php               # Home page
+│       ├── categories.blade.php            # All categories
+│       ├── category.blade.php              # Single category
+│       ├── article.blade.php               # Single article
+│       ├── search.blade.php                # Search results
+│       └── ticket.blade.php               # Support ticket form
+└── src/
+    ├── EzKnowledgeBaseServiceProvider.php  # Service provider (config, routes, middleware, cache)
+    ├── Http/
+    │   ├── Controllers/
+    │   │   ├── ApiController.php           # REST API endpoints
+    │   │   ├── KnowledgeBaseController.php # Web pages (landing, category, article)
+    │   │   ├── SearchController.php        # Web search
+    │   │   └── TicketController.php        # Support ticket form
+    │   └── Middleware/
+    │       ├── ApiAuthenticate.php         # Dual auth: API key or Sanctum
+    │       └── TrackArticleView.php        # Session-based unique view counting
+    └── routes/
+        ├── api.php                         # API route definitions
+        └── web.php                         # Web route definitions
 ```
 
 ## Models

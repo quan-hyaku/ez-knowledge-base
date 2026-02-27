@@ -1,1 +1,5 @@
 .chief/
+vendor/
+node_modules/
+.DS_Store
+composer.lock
