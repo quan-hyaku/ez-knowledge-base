@@ -19,7 +19,7 @@ class KnowledgeBaseController
             function () {
                 return KbCategory::where('is_active', true)
                     ->with(['articles' => function ($query) {
-                        $query->where('is_published', true);
+                        $query->where('is_published', true)->limit(5);
                     }])
                     ->withCount(['articles' => function ($query) {
                         $query->where('is_published', true);
@@ -113,6 +113,7 @@ class KnowledgeBaseController
         $sidebarArticles = $category->articles()
             ->where('is_published', true)
             ->orderBy('title', 'asc')
+            ->limit(20)
             ->get();
 
         // Parse markdown body to HTML

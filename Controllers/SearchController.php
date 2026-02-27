@@ -5,6 +5,7 @@ namespace Packages\EzKnowledgeBase\Controllers;
 use App\Models\KbArticle;
 use App\Models\KbCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SearchController
 {
@@ -60,9 +61,20 @@ class SearchController
             })->paginate(10);
         }
 
-        $categories = KbCategory::where('is_active', true)
-            ->orderBy('sort_order')
-            ->get();
+        $categories = Cache::remember(
+            'kb_categories_with_counts',
+            3600,
+            function () {
+                return KbCategory::where('is_active', true)
+                    ->with(['articles' => function ($query) {
+                        $query->where('is_published', true)->limit(5);
+                    }])
+                    ->withCount(['articles' => function ($query) {
+                        $query->where('is_published', true);
+                    }])
+                    ->get();
+            }
+        );
 
         return view('kb::search', compact('articles', 'query', 'categories', 'categoryFilter', 'sort'));
     }

@@ -6,6 +6,7 @@ use App\Models\KbArticle;
 use App\Models\KbCategory;
 use App\Models\KbTicket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class TicketController
 {
@@ -15,11 +16,17 @@ class TicketController
             ->orderBy('sort_order', 'asc')
             ->get();
 
-        $featuredArticles = KbArticle::where('is_published', true)
-            ->with('category')
-            ->orderBy('view_count', 'desc')
-            ->limit(5)
-            ->get();
+        $featuredArticles = Cache::remember(
+            'kb_featured_articles',
+            3600,
+            function () {
+                return KbArticle::where('is_published', true)
+                    ->where('is_featured', true)
+                    ->with('category')
+                    ->limit(6)
+                    ->get();
+            }
+        );
 
         return view('kb::ticket', compact('categories', 'featuredArticles'));
     }
