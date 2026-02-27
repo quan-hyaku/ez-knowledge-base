@@ -57,3 +57,14 @@
   - When returning non-200 JSON responses, the fetch API doesn't reject — need to check `response.status` in the `.then()` chain
   - The `increment()` method updates the DB but also updates the in-memory model attribute, so returning `$article->helpful_yes_count` after increment gives the correct value
 ---
+
+## 2026-02-27 - US-005
+- Chose Option B (remove): Removed non-functional file upload from ticket form
+- Removed `enctype="multipart/form-data"` from the `<form>` tag
+- Removed the entire file upload section (file input, drag-and-drop area, attachments error display)
+- Backend had no attachment handling, so removal makes UI and backend consistent
+- Files changed: `views/ticket.blade.php`
+- **Learnings for future iterations:**
+  - When a UI element has no backend support, removing it is cleaner than implementing from scratch (especially for file uploads which need storage config, migrations, etc.)
+  - The `enctype="multipart/form-data"` attribute should only be present when file inputs exist in the form
+---
