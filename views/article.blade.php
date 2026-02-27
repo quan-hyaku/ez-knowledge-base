@@ -134,8 +134,18 @@ function submitFeedback(vote) {
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
         body: JSON.stringify({ vote: vote })
     })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
+    .then(function(r) { return r.json().then(function(data) { return { status: r.status, data: data }; }); })
+    .then(function(result) {
+        var data = result.data;
+
+        if (result.status === 409) {
+            // Already voted server-side — sync localStorage and show thanks
+            localStorage.setItem('kb_feedback_{{ $article->id }}', 'voted');
+            document.getElementById('feedback-prompt').classList.add('hidden');
+            document.getElementById('feedback-thanks').classList.remove('hidden');
+            return;
+        }
+
         if (data.success) {
             localStorage.setItem('kb_feedback_{{ $article->id }}', vote);
             document.getElementById('yes-count').textContent = 'Yes (' + data.helpful_yes_count + ')';

@@ -137,11 +137,24 @@ class KnowledgeBaseController
 
         $article = KbArticle::findOrFail($id);
 
+        // Server-side deduplication via session
+        $sessionKey = 'kb_feedback_' . $article->id;
+        if ($request->session()->has($sessionKey)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You have already voted on this article.',
+                'helpful_yes_count' => $article->helpful_yes_count,
+                'helpful_no_count' => $article->helpful_no_count,
+            ], 409);
+        }
+
         if ($validated['vote'] === 'yes') {
             $article->increment('helpful_yes_count');
         } else {
             $article->increment('helpful_no_count');
         }
+
+        $request->session()->put($sessionKey, $validated['vote']);
 
         return response()->json([
             'success' => true,
