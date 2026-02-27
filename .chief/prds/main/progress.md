@@ -68,3 +68,14 @@
   - When a UI element has no backend support, removing it is cleaner than implementing from scratch (especially for file uploads which need storage config, migrations, etc.)
   - The `enctype="multipart/form-data"` attribute should only be present when file inputs exist in the form
 ---
+
+## 2026-02-27 - US-006
+- Added success banner to `ticket.blade.php` that displays when `session('success')` is set
+- Banner uses `role="alert"` for accessibility, styled with green theme, includes a check_circle icon
+- Placed above the main grid so it's visible at the top of the page after redirect
+- The `TicketController::store()` already flashed the success message — only the view was missing
+- Files changed: `views/ticket.blade.php`
+- **Learnings for future iterations:**
+  - The TicketController already uses `redirect()->back()->with('success', ...)` — always check the controller before assuming the backend needs changes
+  - Use `role="alert"` for important messages that need immediate screen reader announcement; use `aria-live="polite"` for less urgent updates
+---
