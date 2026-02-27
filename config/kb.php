@@ -143,6 +143,9 @@ return [
 
         // Support website URL
         'website' => env('KB_SUPPORT_WEBSITE', 'weeklify.cloud'),
+
+        // Live chat URL (null = hide live chat buttons)
+        'live_chat_url' => env('KB_LIVE_CHAT_URL', null),
     ],
 
     /*

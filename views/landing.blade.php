@@ -102,9 +102,11 @@
                 <a href="{{ route('kb.ticket.create') }}" class="bg-white text-primary px-8 py-4 rounded-xl font-bold hover:bg-slate-50 transition-colors flex items-center justify-center">
                     <span class="material-icons mr-2" aria-hidden="true">mail</span> Contact Support
                 </a>
-                <button class="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors flex items-center justify-center">
+                @if(config('kb.support.live_chat_url'))
+                <a href="{{ config('kb.support.live_chat_url') }}" class="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors flex items-center justify-center">
                     <span class="material-icons mr-2" aria-hidden="true">forum</span> Start Live Chat
-                </button>
+                </a>
+                @endif
             </div>
         </div>
     </div>

@@ -9,7 +9,7 @@
         <ol class="flex items-center gap-2">
             <li><a class="hover:text-primary transition-colors" href="{{ route('kb.landing') }}">Home</a></li>
             <li><span class="material-icons text-xs" aria-hidden="true">chevron_right</span></li>
-            <li><a class="hover:text-primary transition-colors" href="#">Support</a></li>
+            <li><a class="hover:text-primary transition-colors" href="{{ route('kb.ticket.create') }}">Support</a></li>
             <li><span class="material-icons text-xs" aria-hidden="true">chevron_right</span></li>
             <li aria-current="page"><span class="text-slate-900 dark:text-white font-medium">Submit a Ticket</span></li>
         </ol>
@@ -120,35 +120,13 @@
                     <!-- Description -->
                     <div>
                         <label for="description" class="block text-sm font-medium text-slate-900 dark:text-white mb-2">Description</label>
-                        <div class="border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden bg-white dark:bg-slate-800">
-                            <!-- Toolbar -->
-                            <div class="border-b border-slate-200 dark:border-slate-700 p-3 flex gap-1 bg-slate-50 dark:bg-slate-900/50">
-                                <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Bold">
-                                    <span class="material-icons text-sm" aria-hidden="true">format_bold</span>
-                                </button>
-                                <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Italic">
-                                    <span class="material-icons text-sm" aria-hidden="true">format_italic</span>
-                                </button>
-                                <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Underline">
-                                    <span class="material-icons text-sm" aria-hidden="true">format_underlined</span>
-                                </button>
-                                <div class="w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
-                                <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="List">
-                                    <span class="material-icons text-sm" aria-hidden="true">format_list_bulleted</span>
-                                </button>
-                                <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Link">
-                                    <span class="material-icons text-sm" aria-hidden="true">link</span>
-                                </button>
-                            </div>
-                            <!-- Textarea -->
-                            <textarea
-                                id="description"
-                                name="description"
-                                rows="8"
-                                placeholder="Please describe your issue in detail..."
-                                class="w-full px-4 py-3 text-slate-900 dark:text-white bg-white dark:bg-slate-800 focus:outline-none resize-none"
-                            >{{ old('description') }}</textarea>
-                        </div>
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="8"
+                            placeholder="Please describe your issue in detail..."
+                            class="w-full px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors resize-none"
+                        >{{ old('description') }}</textarea>
                         @error('description')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                         @enderror
@@ -239,6 +217,7 @@
                     </div>
                 </div>
 
+                @if(config('kb.support.live_chat_url'))
                 <!-- Live Chat CTA -->
                 <div class="bg-slate-50 dark:bg-slate-800/80 p-6 flex flex-col items-center gap-3">
                     <div class="flex -space-x-2">
@@ -248,8 +227,9 @@
                         <div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">+</div>
                     </div>
                     <p class="text-xs text-center text-slate-600 dark:text-slate-400">Our agents are online and ready to help.</p>
-                    <a href="#" class="text-primary text-xs font-bold hover:underline">Start Live Chat Instead</a>
+                    <a href="{{ config('kb.support.live_chat_url') }}" class="text-primary text-xs font-bold hover:underline">Start Live Chat Instead</a>
                 </div>
+                @endif
             </div>
         </div>
     </div>
