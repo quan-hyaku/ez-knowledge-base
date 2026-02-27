@@ -132,3 +132,13 @@
   - Each `<nav>` and `<aside>` needs a *unique* `aria-label` within the page to help screen reader users distinguish between landmarks
   - The categories.blade.php and landing.blade.php don't use `<nav>`, `<aside>`, or `<main>` tags — they use `<section>` and `<div>` elements
 ---
+
+## 2026-02-27 - US-011
+- Added `aria-label="Search knowledge base"` and visually hidden `<label>` elements to all 3 search inputs
+- Added unique `id` attributes to each input for label association: `header-search`, `landing-search`, `categories-search`
+- Files changed: `views/layout.blade.php`, `views/landing.blade.php`, `views/categories.blade.php`
+- **Learnings for future iterations:**
+  - There are 3 search inputs total: header (layout.blade.php), landing hero (landing.blade.php), categories hero (categories.blade.php)
+  - Both `aria-label` and a visually hidden `<label>` with `for` association provide redundant but robust accessibility — belt-and-suspenders approach
+  - Tailwind's `sr-only` class is the standard way to visually hide labels while keeping them accessible to screen readers
+---
