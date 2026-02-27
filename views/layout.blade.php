@@ -14,12 +14,12 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "{{ config('kb.colors.primary') }}",
-                        "background-light": "{{ config('kb.colors.background_light') }}",
-                        "background-dark": "{{ config('kb.colors.background_dark') }}",
+                        "primary": @json(config('kb.colors.primary')),
+                        "background-light": @json(config('kb.colors.background_light')),
+                        "background-dark": @json(config('kb.colors.background_dark')),
                     },
                     fontFamily: {
-                        "display": ["{{ config('kb.font.family') }}"]
+                        "display": [@json(config('kb.font.family'))]
                     },
                     borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
                 },

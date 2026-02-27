@@ -5,6 +5,7 @@ namespace Packages\EzKnowledgeBase;
 use App\Models\KbArticle;
 use App\Models\KbCategory;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/web.php');
         $this->loadRoutesFrom(__DIR__ . '/api.php');
         $this->loadViewsFrom(__DIR__ . '/views', 'kb');
+
+        $this->validateConfigValues();
 
         // Publish config so the host app can override branding
         $this->publishes([
@@ -75,5 +78,34 @@ class AppServiceProvider extends ServiceProvider
             Cache::forget('kb_featured_articles');
             Cache::forget('kb_article_' . $article->slug);
         });
+    }
+
+    /**
+     * Validate config values used in CSS/JS contexts to prevent injection.
+     */
+    private function validateConfigValues(): void
+    {
+        $hexPattern = '/^#[0-9A-Fa-f]{6}$/';
+
+        $colorKeys = [
+            'kb.colors.primary' => '#0369A1',
+            'kb.colors.background_light' => '#f6f6f8',
+            'kb.colors.background_dark' => '#101622',
+        ];
+
+        foreach ($colorKeys as $key => $default) {
+            $value = config($key);
+            if ($value !== null && !preg_match($hexPattern, $value)) {
+                Log::warning("Invalid KB config value for '{$key}': '{$value}'. Must be a 6-digit hex color (e.g. #0369A1). Falling back to default '{$default}'.");
+                config([$key => $default]);
+            }
+        }
+
+        $fontFamily = config('kb.font.family');
+        if ($fontFamily !== null && !preg_match('/^[a-zA-Z0-9 ]+$/', $fontFamily)) {
+            $default = 'Inter';
+            Log::warning("Invalid KB config value for 'kb.font.family': '{$fontFamily}'. Must contain only letters, numbers, and spaces. Falling back to default '{$default}'.");
+            config(['kb.font.family' => $default]);
+        }
     }
 }
