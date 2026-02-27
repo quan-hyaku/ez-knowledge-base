@@ -38,9 +38,10 @@ class AppServiceProvider extends ServiceProvider
             __DIR__ . '/config/kb.php' => config_path('kb.php'),
         ], 'kb-config');
 
-        // Publish default logo asset
+        // Publish assets (logo and compiled CSS)
         $this->publishes([
             __DIR__ . '/assets/KB-logo.png' => public_path('vendor/kb/KB-logo.png'),
+            __DIR__ . '/assets/css/kb.css' => public_path('vendor/kb/css/kb.css'),
         ], 'kb-assets');
 
         // Register cache invalidation listeners

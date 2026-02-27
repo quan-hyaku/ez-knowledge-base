@@ -97,7 +97,7 @@
             <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
             <div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
             <h2 class="text-3xl font-bold mb-4 relative z-10">Still can't find what you're looking for?</h2>
-            <p class="text-primary-100 opacity-90 mb-10 max-w-xl mx-auto text-lg relative z-10">Our support team is available 24/7 to help you with any technical or account-related questions.</p>
+            <p class="text-white opacity-90 mb-10 max-w-xl mx-auto text-lg relative z-10">Our support team is available 24/7 to help you with any technical or account-related questions.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
                 <a href="{{ route('kb.ticket.create') }}" class="bg-white text-primary px-8 py-4 rounded-xl font-bold hover:bg-slate-50 transition-colors flex items-center justify-center">
                     <span class="material-icons mr-2" aria-hidden="true">mail</span> Contact Support

@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.search-highlight {
+  background-color: rgb(var(--kb-primary) / 0.1);
+  color: rgb(var(--kb-primary));
+  padding: 0 2px;
+  border-radius: 2px;
+  font-weight: 500;
+}

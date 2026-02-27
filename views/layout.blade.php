@@ -4,31 +4,25 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>@yield('title', 'Knowledge Base') - {{ config('kb.brand.name') }}</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries,typography"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
     <link href="{{ config('kb.font.google_fonts_url') }}" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": @json(config('kb.colors.primary')),
-                        "background-light": @json(config('kb.colors.background_light')),
-                        "background-dark": @json(config('kb.colors.background_dark')),
-                    },
-                    fontFamily: {
-                        "display": [@json(config('kb.font.family'))]
-                    },
-                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-                },
-            },
-        }
-    </script>
+    <link href="{{ asset('vendor/kb/css/kb.css') }}" rel="stylesheet"/>
+    @php
+        $hexToRgb = function ($hex) {
+            $hex = ltrim($hex, '#');
+            return hexdec(substr($hex, 0, 2)) . ' ' . hexdec(substr($hex, 2, 2)) . ' ' . hexdec(substr($hex, 4, 2));
+        };
+    @endphp
     <style>
-        body { font-family: '{{ config('kb.font.family') }}', sans-serif; }
-        .search-highlight { background-color: {{ config('kb.colors.primary') }}1a; color: {{ config('kb.colors.primary') }}; padding: 0 2px; border-radius: 2px; font-weight: 500; }
+        :root {
+            --kb-primary: {{ $hexToRgb(config('kb.colors.primary')) }};
+            --kb-bg-light: {{ $hexToRgb(config('kb.colors.background_light')) }};
+            --kb-bg-dark: {{ $hexToRgb(config('kb.colors.background_dark')) }};
+            --kb-font: '{{ config('kb.font.family') }}';
+        }
     </style>
     @stack('styles')
 </head>
