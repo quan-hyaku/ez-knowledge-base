@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Packages\EzKnowledgeBase\Helpers\HtmlSanitizer;
 
 class ApiController
 {
@@ -124,12 +125,15 @@ class ApiController
 
         // Parse markdown to HTML
         $parsedBody = Str::markdown($article->body, [
-            'html_input' => 'allow',
+            'html_input' => 'escape',
             'allow_unsafe_links' => false,
         ]);
 
         // Add IDs to headings for anchor links
         $parsedBody = $this->addHeadingIds($parsedBody);
+
+        // Sanitize HTML to prevent XSS
+        $parsedBody = HtmlSanitizer::sanitize($parsedBody);
 
         // Extract h2 headings for table of contents
         $toc = $this->extractHeadings($parsedBody);

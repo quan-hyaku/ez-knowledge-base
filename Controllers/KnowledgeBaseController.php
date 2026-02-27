@@ -7,6 +7,7 @@ use App\Models\KbCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Packages\EzKnowledgeBase\Helpers\HtmlSanitizer;
 
 class KnowledgeBaseController
 {
@@ -118,6 +119,9 @@ class KnowledgeBaseController
 
         // Add IDs to headings for anchor links
         $parsedBody = $this->addHeadingIds($parsedBody);
+
+        // Sanitize HTML to prevent XSS from rendered markdown
+        $parsedBody = HtmlSanitizer::sanitize($parsedBody);
 
         // Extract h2 headings for TOC from parsed HTML
         $toc = $this->extractHeadings($parsedBody);
