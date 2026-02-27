@@ -35,10 +35,10 @@
         <header class="mb-8 pb-8 border-b border-slate-200 dark:border-slate-800">
             <h1 class="text-4xl font-bold text-slate-900 dark:text-white mb-4">{{ $article->title }}</h1>
             <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
-                @if($article->read_time)
+                @if($article->read_time_minutes)
                 <span class="flex items-center gap-2">
                     <span class="material-icons text-base" aria-hidden="true">schedule</span>
-                    {{ $article->read_time }} min read
+                    {{ $article->read_time_minutes }} min read
                 </span>
                 @endif
                 @if($article->updated_at)
