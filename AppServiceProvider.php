@@ -44,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
             __DIR__ . '/assets/css/kb.css' => public_path('vendor/kb/css/kb.css'),
         ], 'kb-assets');
 
+        // Publish performance index migration
+        $this->publishes([
+            __DIR__ . '/migrations/add_kb_performance_indexes.php' => database_path('migrations/' . date('Y_m_d') . '_120010_add_kb_performance_indexes.php'),
+        ], 'kb-migrations');
+
         // Register cache invalidation listeners
         KbCategory::saved(function (KbCategory $category) {
             Cache::forget('kb_categories_with_counts');

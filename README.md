@@ -59,7 +59,27 @@ php artisan vendor:publish --tag=kb-config
 php artisan vendor:publish --tag=kb-assets
 ```
 
-### 5. Set up search (optional but recommended)
+### 5. Add performance indexes (recommended)
+
+```bash
+# Publish the index migration
+php artisan vendor:publish --tag=kb-migrations
+
+# Run the migration
+php artisan migrate
+```
+
+This adds indexes on:
+- `kb_categories(is_active, sort_order)` — category listing queries
+- `kb_articles(is_published, is_featured)` — article filtering queries
+- `kb_articles(view_count)` — popular article sorting
+
+The following indexes are already created by the base migrations:
+- `kb_categories(slug)` — unique index
+- `kb_articles(slug)` — unique index
+- `kb_articles(kb_category_id)` — foreign key index
+
+### 6. Set up search (optional but recommended)
 
 ```bash
 composer require laravel/scout teamtnt/laravel-scout-tntsearch-driver
