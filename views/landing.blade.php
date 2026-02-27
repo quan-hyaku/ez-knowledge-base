@@ -15,7 +15,7 @@
             </div>
             <form action="{{ route('kb.search') }}" method="GET" class="flex">
                 <label for="landing-search" class="sr-only">Search knowledge base</label>
-                <input id="landing-search" class="flex-1 pl-14 pr-4 py-5 bg-white dark:bg-slate-800 border-none rounded-l-xl search-shadow focus:ring-2 focus:ring-primary/20 text-slate-900 dark:text-white transition-all outline-none" placeholder="{{ config('kb.search.hero_placeholder') }}" type="text" name="q" required aria-label="Search knowledge base"/>
+                <input id="landing-search" class="flex-1 pl-14 pr-4 py-5 bg-white dark:bg-slate-800 border-none rounded-l-xl search-shadow focus:ring-2 focus:ring-primary/50 text-slate-900 dark:text-white transition-all outline-none" placeholder="{{ config('kb.search.hero_placeholder') }}" type="text" name="q" required aria-label="Search knowledge base"/>
                 <button type="submit" class="px-6 bg-primary text-white rounded-r-xl font-medium hover:bg-primary/90 transition-colors">Search</button>
             </form>
         </div>

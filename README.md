@@ -214,7 +214,7 @@ After publishing (`php artisan vendor:publish --tag=kb-config`), edit `config/kb
 | `KB_BRAND_COPYRIGHT` | `Weeklify Inc.` | Copyright holder |
 | `KB_LOGO_URL` | `null` | Custom logo URL (null = bundled logo) |
 | `KB_LOGO_ALT` | `Knowledge Base` | Logo alt text |
-| `KB_COLOR_PRIMARY` | `#0EA5E9` | Primary brand colour |
+| `KB_COLOR_PRIMARY` | `#0369A1` | Primary brand colour (WCAG AA: use ≥4.5:1 contrast vs white) |
 | `KB_COLOR_BG_LIGHT` | `#f6f6f8` | Light mode background |
 | `KB_COLOR_BG_DARK` | `#101622` | Dark mode background |
 | `KB_FONT_FAMILY` | `Inter` | Google Font family name |

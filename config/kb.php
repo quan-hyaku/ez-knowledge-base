@@ -60,11 +60,17 @@ return [
     |
     | Use any valid CSS color value (hex, rgb, hsl, oklch, etc.)
     |
+    | For accessibility (WCAG 2.1 AA), the primary color should have a
+    | contrast ratio of at least 4.5:1 against white for normal text,
+    | and 3:1 for large text and UI components. You can check your
+    | color at https://webaim.org/resources/contrastchecker/
+    |
     */
 
     'colors' => [
         // Primary brand color (buttons, links, accents)
-        'primary' => env('KB_COLOR_PRIMARY', '#0EA5E9'),
+        // Default #0369A1 meets WCAG AA contrast (4.63:1 against white)
+        'primary' => env('KB_COLOR_PRIMARY', '#0369A1'),
 
         // Light mode background
         'background_light' => env('KB_COLOR_BG_LIGHT', '#f6f6f8'),

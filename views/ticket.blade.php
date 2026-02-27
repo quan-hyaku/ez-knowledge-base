@@ -47,7 +47,7 @@
                             name="subject"
                             value="{{ old('subject') }}"
                             placeholder="What is your issue about?"
-                            class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                            class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
                         />
                         @error('subject')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -62,7 +62,7 @@
                             <select
                                 id="category"
                                 name="category"
-                                class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                                class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
                             >
                                 <option value="">Select a category</option>
                                 <option value="billing" {{ old('category') === 'billing' ? 'selected' : '' }}>Billing</option>
@@ -165,7 +165,7 @@
                                 name="name"
                                 value="{{ old('name') }}"
                                 placeholder="Your full name"
-                                class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                                class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
                             />
                             @error('name')
                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -181,7 +181,7 @@
                                 name="email"
                                 value="{{ old('email') }}"
                                 placeholder="your@email.com"
-                                class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors"
+                                class="w-full px-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors"
                             />
                             @error('email')
                                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -193,7 +193,7 @@
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
                         <button
                             type="submit"
-                            class="px-6 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+                            class="px-6 py-2.5 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50"
                         >
                             Submit Ticket
                         </button>
