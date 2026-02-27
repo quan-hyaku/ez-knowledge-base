@@ -14,7 +14,8 @@
         <div class="relative group">
             <span class="material-icons absolute left-5 top-1/2 -translate-y-1/2 text-slate-400">search</span>
             <form action="{{ route('kb.search') }}" method="GET">
-                <input name="q" class="w-full pl-14 pr-6 py-4 sm:py-5 rounded-xl border-none shadow-2xl focus:ring-4 focus:ring-primary/30 text-slate-900 text-lg" placeholder="Search for articles, features, or troubleshooting..." type="text"/>
+                <label for="categories-search" class="sr-only">Search knowledge base</label>
+                <input id="categories-search" name="q" class="w-full pl-14 pr-6 py-4 sm:py-5 rounded-xl border-none shadow-2xl focus:ring-4 focus:ring-primary/30 text-slate-900 text-lg" placeholder="Search for articles, features, or troubleshooting..." type="text" aria-label="Search knowledge base"/>
                 <button class="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors hidden sm:block">Search</button>
             </form>
         </div>

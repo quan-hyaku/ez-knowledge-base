@@ -56,7 +56,8 @@
                         <span class="material-icons text-sm">search</span>
                     </span>
                     <form method="GET" action="{{ route('kb.search') }}" class="inline">
-                        <input class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary" placeholder="{{ config('kb.search.placeholder') }}" type="text" name="q" value="{{ request('q') }}"/>
+                        <label for="header-search" class="sr-only">Search knowledge base</label>
+                        <input id="header-search" class="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm w-64 focus:ring-2 focus:ring-primary" placeholder="{{ config('kb.search.placeholder') }}" type="text" name="q" value="{{ request('q') }}" aria-label="Search knowledge base"/>
                     </form>
                 </div>
                 @if(config('kb.support.enabled'))
