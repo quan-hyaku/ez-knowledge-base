@@ -6,6 +6,8 @@
 - No dedicated test suite — use `php -l` for syntax checking at minimum
 - Cache keys follow pattern: `kb_article_{slug}`, `kb_categories_with_counts`, `kb_featured_articles`, `kb_all_categories_with_top_articles`
 - Namespace: `Packages\EzKnowledgeBase\`
+- Use `DB::table()->increment()` instead of `$model->increment()` for tracking columns to avoid triggering Eloquent model events and cache invalidation
+- Cache invalidation listeners are in `AppServiceProvider::boot()` using Eloquent closure listeners (not Observer classes)
 
 ---
 
@@ -78,4 +80,16 @@
 - **Learnings for future iterations:**
   - The TicketController already uses `redirect()->back()->with('success', ...)` — always check the controller before assuming the backend needs changes
   - Use `role="alert"` for important messages that need immediate screen reader announcement; use `aria-live="polite"` for less urgent updates
+---
+
+## 2026-02-27 - US-007
+- Fixed cache invalidation being triggered on every page view due to `$article->increment('view_count')` firing Eloquent `saved` event
+- Changed TrackArticleView middleware to use `DB::table('kb_articles')->where('id', $article->id)->increment('view_count')` which bypasses Eloquent model events entirely
+- Added guard in AppServiceProvider's `KbArticle::saved` listener to skip cache invalidation when only tracking columns (`view_count`, `helpful_yes_count`, `helpful_no_count`, `updated_at`) changed
+- Cache invalidation still fires correctly when content, title, slug, or other meaningful fields are edited
+- Files changed: `Middleware/TrackArticleView.php`, `AppServiceProvider.php`
+- **Learnings for future iterations:**
+  - `$model->increment()` triggers Eloquent `saved` event — use `DB::table()->increment()` to bypass model events for tracking-only updates
+  - `$article->getChanges()` returns the attributes that were changed in the current save — useful for conditional cache invalidation
+  - Defense-in-depth: both the middleware bypass (DB::table) AND the guard in the saved listener protect against unnecessary cache invalidation
 ---
