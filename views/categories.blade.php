@@ -25,11 +25,13 @@
 <!-- MAIN CONTENT -->
 <section class="w-full px-6 lg:px-10 py-12">
     <!-- Breadcrumbs -->
-    <div class="mb-8 flex items-center gap-2 text-sm">
-        <a href="{{ route('kb.landing') }}" class="text-slate-600 dark:text-slate-400 hover:text-primary">Home</a>
-        <span class="text-slate-400">/</span>
-        <span class="text-slate-900 dark:text-white font-medium">All Categories</span>
-    </div>
+    <nav aria-label="Breadcrumb" class="mb-8 text-sm">
+        <ol class="flex items-center gap-2">
+            <li><a href="{{ route('kb.landing') }}" class="text-slate-600 dark:text-slate-400 hover:text-primary">Home</a></li>
+            <li><span class="text-slate-400" aria-hidden="true">/</span></li>
+            <li aria-current="page"><span class="text-slate-900 dark:text-white font-medium">All Categories</span></li>
+        </ol>
+    </nav>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <!-- LEFT SIDEBAR -->

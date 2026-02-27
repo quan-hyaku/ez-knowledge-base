@@ -27,13 +27,15 @@
     <!-- MAIN CONTENT -->
     <main class="lg:col-span-6 2xl:col-span-8">
         <!-- Breadcrumbs -->
-        <div class="mb-8 flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
-            <a href="{{ route('kb.landing') }}" class="hover:text-primary transition-colors">Home</a>
-            <span class="text-slate-400">/</span>
-            <a href="{{ route('kb.categories') }}" class="hover:text-primary transition-colors">Categories</a>
-            <span class="text-slate-400">/</span>
-            <span class="text-slate-900 dark:text-white font-medium">{{ $category->name }}</span>
-        </div>
+        <nav aria-label="Breadcrumb" class="mb-8 text-sm text-slate-600 dark:text-slate-400">
+            <ol class="flex items-center gap-2">
+                <li><a href="{{ route('kb.landing') }}" class="hover:text-primary transition-colors">Home</a></li>
+                <li><span class="text-slate-400" aria-hidden="true">/</span></li>
+                <li><a href="{{ route('kb.categories') }}" class="hover:text-primary transition-colors">Categories</a></li>
+                <li><span class="text-slate-400" aria-hidden="true">/</span></li>
+                <li aria-current="page"><span class="text-slate-900 dark:text-white font-medium">{{ $category->name }}</span></li>
+            </ol>
+        </nav>
 
         <!-- Category Header -->
         <header class="mb-12 pb-8 border-b border-slate-200 dark:border-slate-800">

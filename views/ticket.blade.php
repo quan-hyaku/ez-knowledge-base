@@ -5,12 +5,14 @@
 @section('content')
 <div class="py-4">
     <!-- Breadcrumbs -->
-    <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-slate-500 dark:text-slate-400">
-        <a class="hover:text-primary transition-colors" href="{{ route('kb.landing') }}">Home</a>
-        <span class="material-icons text-xs" aria-hidden="true">chevron_right</span>
-        <a class="hover:text-primary transition-colors" href="#">Support</a>
-        <span class="material-icons text-xs" aria-hidden="true">chevron_right</span>
-        <span class="text-slate-900 dark:text-white font-medium">Submit a Ticket</span>
+    <nav aria-label="Breadcrumb" class="mb-8 text-sm text-slate-500 dark:text-slate-400">
+        <ol class="flex items-center gap-2">
+            <li><a class="hover:text-primary transition-colors" href="{{ route('kb.landing') }}">Home</a></li>
+            <li><span class="material-icons text-xs" aria-hidden="true">chevron_right</span></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Support</a></li>
+            <li><span class="material-icons text-xs" aria-hidden="true">chevron_right</span></li>
+            <li aria-current="page"><span class="text-slate-900 dark:text-white font-medium">Submit a Ticket</span></li>
+        </ol>
     </nav>
 
     <!-- Success Banner -->
