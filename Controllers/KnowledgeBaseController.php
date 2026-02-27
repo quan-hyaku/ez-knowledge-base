@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Packages\EzKnowledgeBase\Helpers\HtmlSanitizer;
+use Packages\EzKnowledgeBase\Helpers\MarkdownHelper;
 
 class KnowledgeBaseController
 {
@@ -136,13 +137,13 @@ class KnowledgeBaseController
         ]);
 
         // Add IDs to headings for anchor links
-        $parsedBody = $this->addHeadingIds($parsedBody);
+        $parsedBody = MarkdownHelper::addHeadingIds($parsedBody);
 
         // Sanitize HTML to prevent XSS from rendered markdown
         $parsedBody = HtmlSanitizer::sanitize($parsedBody);
 
         // Extract h2 headings for TOC from parsed HTML
-        $toc = $this->extractHeadings($parsedBody);
+        $toc = MarkdownHelper::extractHeadings($parsedBody);
 
         return view('kb::article', compact('article', 'category', 'sidebarArticles', 'toc', 'parsedBody', 'prevArticle', 'nextArticle'));
     }
@@ -182,39 +183,4 @@ class KnowledgeBaseController
         ]);
     }
 
-    private function addHeadingIds($html)
-    {
-        return preg_replace_callback('/<(h[1-6])([^>]*)>(.+?)<\/\1>/i', function ($matches) {
-            $tag = $matches[1];
-            $attrs = $matches[2];
-            $text = strip_tags($matches[3]);
-            $id = Str::slug($text);
-
-            // Don't overwrite existing id
-            if (preg_match('/\bid\s*=/', $attrs)) {
-                return $matches[0];
-            }
-
-            return "<{$tag}{$attrs} id=\"{$id}\">{$matches[3]}</{$tag}>";
-        }, $html);
-    }
-
-    private function extractHeadings($html)
-    {
-        $headings = [];
-        preg_match_all('/<h2[^>]*>(.+?)<\/h2>/i', $html, $matches);
-
-        if (!empty($matches[1])) {
-            foreach ($matches[1] as $heading) {
-                $text = strip_tags($heading);
-                $id = Str::slug($text);
-                $headings[] = [
-                    'text' => $text,
-                    'id' => $id,
-                ];
-            }
-        }
-
-        return $headings;
-    }
 }

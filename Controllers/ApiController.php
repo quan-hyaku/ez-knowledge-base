@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Packages\EzKnowledgeBase\Helpers\HtmlSanitizer;
+use Packages\EzKnowledgeBase\Helpers\MarkdownHelper;
 
 class ApiController
 {
@@ -136,13 +137,13 @@ class ApiController
         ]);
 
         // Add IDs to headings for anchor links
-        $parsedBody = $this->addHeadingIds($parsedBody);
+        $parsedBody = MarkdownHelper::addHeadingIds($parsedBody);
 
         // Sanitize HTML to prevent XSS
         $parsedBody = HtmlSanitizer::sanitize($parsedBody);
 
         // Extract h2 headings for table of contents
-        $toc = $this->extractHeadings($parsedBody);
+        $toc = MarkdownHelper::extractHeadings($parsedBody);
 
         return response()->json([
             'data' => [
@@ -248,37 +249,4 @@ class ApiController
         ];
     }
 
-    private function addHeadingIds(string $html): string
-    {
-        return preg_replace_callback('/<(h[1-6])([^>]*)>(.+?)<\/\1>/i', function ($matches) {
-            $tag = $matches[1];
-            $attrs = $matches[2];
-            $text = strip_tags($matches[3]);
-            $id = Str::slug($text);
-
-            if (preg_match('/\bid\s*=/', $attrs)) {
-                return $matches[0];
-            }
-
-            return "<{$tag}{$attrs} id=\"{$id}\">{$matches[3]}</{$tag}>";
-        }, $html);
-    }
-
-    private function extractHeadings(string $html): array
-    {
-        $headings = [];
-        preg_match_all('/<h2[^>]*>(.+?)<\/h2>/i', $html, $matches);
-
-        if (!empty($matches[1])) {
-            foreach ($matches[1] as $heading) {
-                $text = strip_tags($heading);
-                $headings[] = [
-                    'text' => $text,
-                    'id' => Str::slug($text),
-                ];
-            }
-        }
-
-        return $headings;
-    }
 }
