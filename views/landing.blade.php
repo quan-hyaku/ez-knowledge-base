@@ -11,7 +11,7 @@
         <p class="text-lg text-slate-600 dark:text-slate-400 mb-10 max-w-2xl mx-auto">{{ config('kb.hero.subtitle') }}</p>
         <div class="max-w-3xl mx-auto relative group">
             <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
-                <span class="material-icons text-slate-400">search</span>
+                <span class="material-icons text-slate-400" aria-hidden="true">search</span>
             </div>
             <form action="{{ route('kb.search') }}" method="GET" class="flex">
                 <label for="landing-search" class="sr-only">Search knowledge base</label>
@@ -36,12 +36,12 @@
         @forelse($categories as $category)
         <a class="group p-8 bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-primary transition-all duration-300 hover:shadow-lg" href="{{ route('kb.category', $category->slug) }}">
             <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                <span class="material-icons text-primary group-hover:text-white">{{ $category->icon ?? 'help' }}</span>
+                <span class="material-icons text-primary group-hover:text-white" aria-hidden="true">{{ $category->icon ?? 'help' }}</span>
             </div>
             <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ $category->name }}</h3>
             <p class="text-slate-600 dark:text-slate-400 leading-relaxed">{{ $category->description }}</p>
             <div class="mt-6 flex items-center text-primary font-medium text-sm">
-                {{ $category->articles_count }} {{ Str::plural('Article', $category->articles_count) }} <span class="material-icons text-sm ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                {{ $category->articles_count }} {{ Str::plural('Article', $category->articles_count) }} <span class="material-icons text-sm ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
             </div>
         </a>
         @empty
@@ -59,7 +59,7 @@
         <div class="flex items-center justify-between mb-10">
             <h2 class="text-3xl font-bold text-slate-900 dark:text-white">Popular Articles</h2>
             <a class="text-primary font-semibold hover:underline flex items-center" href="{{ route('kb.categories') }}">
-                View all articles <span class="material-icons text-sm ml-1">arrow_forward</span>
+                View all articles <span class="material-icons text-sm ml-1" aria-hidden="true">arrow_forward</span>
             </a>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -75,7 +75,7 @@
                 @endphp
                 @foreach(array_slice($articles, $start, $end - $start) as $article)
                 <a class="flex items-start group @if(!$loop->first) border-t border-slate-100 dark:border-slate-800 pt-6 @endif" href="{{ route('kb.article', [$article->category->slug, $article->slug]) }}">
-                    <span class="material-icons text-primary/40 mt-1 mr-4">description</span>
+                    <span class="material-icons text-primary/40 mt-1 mr-4" aria-hidden="true">description</span>
                     <div>
                         <h4 class="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">{{ $article->title }}</h4>
                         <p class="text-sm text-slate-500 mt-1">{{ $article->excerpt }}</p>
@@ -100,10 +100,10 @@
             <p class="text-primary-100 opacity-90 mb-10 max-w-xl mx-auto text-lg relative z-10">Our support team is available 24/7 to help you with any technical or account-related questions.</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
                 <a href="{{ route('kb.ticket.create') }}" class="bg-white text-primary px-8 py-4 rounded-xl font-bold hover:bg-slate-50 transition-colors flex items-center justify-center">
-                    <span class="material-icons mr-2">mail</span> Contact Support
+                    <span class="material-icons mr-2" aria-hidden="true">mail</span> Contact Support
                 </a>
                 <button class="bg-primary border-2 border-white/30 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors flex items-center justify-center">
-                    <span class="material-icons mr-2">forum</span> Start Live Chat
+                    <span class="material-icons mr-2" aria-hidden="true">forum</span> Start Live Chat
                 </button>
             </div>
         </div>

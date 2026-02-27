@@ -12,7 +12,7 @@
     <div class="max-w-4xl mx-auto px-4 relative z-10 text-center">
         <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">How can we help you today?</h1>
         <div class="relative group">
-            <span class="material-icons absolute left-5 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+            <span class="material-icons absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true">search</span>
             <form action="{{ route('kb.search') }}" method="GET">
                 <label for="categories-search" class="sr-only">Search knowledge base</label>
                 <input id="categories-search" name="q" class="w-full pl-14 pr-6 py-4 sm:py-5 rounded-xl border-none shadow-2xl focus:ring-4 focus:ring-primary/30 text-slate-900 text-lg" placeholder="Search for articles, features, or troubleshooting..." type="text" aria-label="Search knowledge base"/>
@@ -42,7 +42,7 @@
                         @foreach($categories->first()->articles->take(3) as $article)
                             <li>
                                 <a href="{{ route('kb.article', [$categories->first()->slug, $article->slug]) }}" class="text-sm text-slate-600 dark:text-slate-400 hover:text-primary flex items-center gap-2 transition-colors">
-                                    <span class="material-icons text-xs">trending_up</span>
+                                    <span class="material-icons text-xs" aria-hidden="true">trending_up</span>
                                     {{ $article->title }}
                                 </a>
                             </li>
@@ -70,7 +70,7 @@
                     <div class="bg-white dark:bg-background-dark/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all">
                         <div class="flex items-center gap-4 mb-6">
                             <div class="w-12 h-12 bg-primary/10 dark:bg-primary/20 text-primary rounded-lg flex items-center justify-center flex-shrink-0">
-                                <span class="material-icons text-2xl">{{ $category->icon ?? 'help' }}</span>
+                                <span class="material-icons text-2xl" aria-hidden="true">{{ $category->icon ?? 'help' }}</span>
                             </div>
                             <div>
                                 <h2 class="text-xl font-bold text-slate-900 dark:text-white">{{ $category->name }}</h2>
@@ -81,20 +81,20 @@
                             @foreach($category->articles->take(4) as $article)
                                 <li>
                                     <a class="text-slate-600 dark:text-slate-400 hover:text-primary flex items-center gap-2 transition-colors" href="{{ route('kb.article', [$category->slug, $article->slug]) }}">
-                                        <span class="material-icons text-xs">description</span>
+                                        <span class="material-icons text-xs" aria-hidden="true">description</span>
                                         {{ $article->title }}
                                     </a>
                                 </li>
                             @endforeach
                         </ul>
                         <a class="text-primary font-semibold text-sm flex items-center group" href="{{ route('kb.category', $category->slug) }}">
-                            View All Articles <span class="material-icons text-sm ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                            View All Articles <span class="material-icons text-sm ml-1 group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
                         </a>
                     </div>
                 @empty
                     <div class="col-span-full">
                         <div class="bg-white dark:bg-background-dark/50 border border-slate-200 dark:border-slate-800 rounded-xl p-12 text-center">
-                            <span class="material-icons text-5xl text-slate-300 dark:text-slate-600 mb-4 block">folder_open</span>
+                            <span class="material-icons text-5xl text-slate-300 dark:text-slate-600 mb-4 block" aria-hidden="true">folder_open</span>
                             <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">No Categories Found</h3>
                             <p class="text-slate-600 dark:text-slate-400">Categories are being set up. Please check back soon.</p>
                         </div>

@@ -7,16 +7,16 @@
     <!-- Breadcrumbs -->
     <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-sm mb-8 text-slate-500 dark:text-slate-400">
         <a class="hover:text-primary transition-colors" href="{{ route('kb.landing') }}">Home</a>
-        <span class="material-icons text-xs">chevron_right</span>
+        <span class="material-icons text-xs" aria-hidden="true">chevron_right</span>
         <a class="hover:text-primary transition-colors" href="#">Support</a>
-        <span class="material-icons text-xs">chevron_right</span>
+        <span class="material-icons text-xs" aria-hidden="true">chevron_right</span>
         <span class="text-slate-900 dark:text-white font-medium">Submit a Ticket</span>
     </nav>
 
     <!-- Success Banner -->
     @if(session('success'))
         <div role="alert" class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl flex items-start gap-3">
-            <span class="material-icons text-green-600 dark:text-green-400 mt-0.5">check_circle</span>
+            <span class="material-icons text-green-600 dark:text-green-400 mt-0.5" aria-hidden="true">check_circle</span>
             <div>
                 <p class="font-medium text-green-800 dark:text-green-200">{{ session('success') }}</p>
             </div>
@@ -122,20 +122,20 @@
                             <!-- Toolbar -->
                             <div class="border-b border-slate-200 dark:border-slate-700 p-3 flex gap-1 bg-slate-50 dark:bg-slate-900/50">
                                 <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Bold">
-                                    <span class="material-icons text-sm">format_bold</span>
+                                    <span class="material-icons text-sm" aria-hidden="true">format_bold</span>
                                 </button>
                                 <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Italic">
-                                    <span class="material-icons text-sm">format_italic</span>
+                                    <span class="material-icons text-sm" aria-hidden="true">format_italic</span>
                                 </button>
                                 <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Underline">
-                                    <span class="material-icons text-sm">format_underlined</span>
+                                    <span class="material-icons text-sm" aria-hidden="true">format_underlined</span>
                                 </button>
                                 <div class="w-px bg-slate-200 dark:bg-slate-700 mx-1"></div>
                                 <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="List">
-                                    <span class="material-icons text-sm">format_list_bulleted</span>
+                                    <span class="material-icons text-sm" aria-hidden="true">format_list_bulleted</span>
                                 </button>
                                 <button type="button" class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded transition-colors" title="Link">
-                                    <span class="material-icons text-sm">link</span>
+                                    <span class="material-icons text-sm" aria-hidden="true">link</span>
                                 </button>
                             </div>
                             <!-- Textarea -->
@@ -196,7 +196,7 @@
                             Submit Ticket
                         </button>
                         <p class="text-sm text-slate-600 dark:text-slate-400 flex items-center gap-2">
-                            <span class="material-icons text-sm text-primary">schedule</span>
+                            <span class="material-icons text-sm text-primary" aria-hidden="true">schedule</span>
                             Average response time: Under 24 hours
                         </p>
                     </div>
@@ -210,7 +210,7 @@
                 <!-- Header -->
                 <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
                     <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <span class="material-icons text-primary">lightbulb</span>
+                        <span class="material-icons text-primary" aria-hidden="true">lightbulb</span>
                     </div>
                     <div>
                         <h2 class="font-bold text-slate-900 dark:text-white">Maybe these help?</h2>
@@ -241,7 +241,7 @@
                 <div class="bg-slate-50 dark:bg-slate-800/80 p-6 flex flex-col items-center gap-3">
                     <div class="flex -space-x-2">
                         <div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-primary/20 flex items-center justify-center">
-                            <span class="material-icons text-primary text-sm">person</span>
+                            <span class="material-icons text-primary text-sm" aria-hidden="true">person</span>
                         </div>
                         <div class="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-primary/30 flex items-center justify-center text-[10px] font-bold text-primary">+</div>
                     </div>

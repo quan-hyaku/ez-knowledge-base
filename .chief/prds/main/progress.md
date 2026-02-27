@@ -142,3 +142,14 @@
   - Both `aria-label` and a visually hidden `<label>` with `for` association provide redundant but robust accessibility — belt-and-suspenders approach
   - Tailwind's `sr-only` class is the standard way to visually hide labels while keeping them accessible to screen readers
 ---
+
+## 2026-02-27 - US-012
+- Added `aria-hidden="true"` to all 31 `<span class="material-icons">` elements across 7 view files
+- All icons are decorative (they have adjacent text conveying the meaning), so they all get `aria-hidden="true"` to prevent screen readers from announcing ligature text like "schedule", "thumb_up", "description", etc.
+- Files changed: `views/layout.blade.php`, `views/landing.blade.php`, `views/categories.blade.php`, `views/article.blade.php`, `views/category.blade.php`, `views/search.blade.php`, `views/ticket.blade.php`
+- **Learnings for future iterations:**
+  - All material icons in this codebase are decorative — they always appear alongside text that conveys the same meaning
+  - Material Icons use ligature text (e.g., `thumb_up`, `schedule`) inside the `<span>` which screen readers will announce as regular text unless `aria-hidden="true"` is set
+  - For icons that are the only content in a button (like toolbar buttons in ticket.blade.php), the buttons already have `title` attributes; proper `aria-label` on buttons is covered by US-030
+  - A simple regex `class="material-icons[^"]*"(?!.*aria-hidden)` can verify all icons have been covered
+---

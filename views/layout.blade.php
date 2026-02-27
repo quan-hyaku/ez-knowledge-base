@@ -53,7 +53,7 @@
             <div class="flex items-center gap-4">
                 <div class="relative hidden sm:block">
                     <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
-                        <span class="material-icons text-sm">search</span>
+                        <span class="material-icons text-sm" aria-hidden="true">search</span>
                     </span>
                     <form method="GET" action="{{ route('kb.search') }}" class="inline">
                         <label for="header-search" class="sr-only">Search knowledge base</label>

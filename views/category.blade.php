@@ -40,7 +40,7 @@
             <div class="flex items-start gap-4 mb-6">
                 @if($category->icon)
                     <div class="flex-shrink-0">
-                        <span class="material-icons text-4xl text-primary">{{ $category->icon }}</span>
+                        <span class="material-icons text-4xl text-primary" aria-hidden="true">{{ $category->icon }}</span>
                     </div>
                 @endif
                 <div class="flex-grow">
@@ -66,7 +66,7 @@
                             </p>
                             <div class="flex flex-wrap items-center gap-4 pt-3 border-t border-slate-50 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
                                 <span class="flex items-center gap-1">
-                                    <span class="material-icons text-xs">schedule</span>
+                                    <span class="material-icons text-xs" aria-hidden="true">schedule</span>
                                     {{ $article->read_time_minutes ?? 5 }} min read
                                 </span>
                                 <span class="w-1 h-1 bg-slate-300 dark:bg-slate-600 rounded-full"></span>
@@ -84,7 +84,7 @@
         @else
             <!-- Empty State -->
             <div class="text-center py-16">
-                <span class="material-icons text-6xl text-slate-300 mb-4 block">article</span>
+                <span class="material-icons text-6xl text-slate-300 mb-4 block" aria-hidden="true">article</span>
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">No articles found</h2>
                 <p class="text-slate-500 dark:text-slate-400 mb-6">This category doesn't have any published articles yet.</p>
                 <a href="{{ route('kb.categories') }}" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors">
@@ -116,7 +116,7 @@
                         <li>
                             <a href="{{ route('kb.category', $relCat->slug) }}" class="text-sm text-slate-600 dark:text-slate-400 hover:text-primary transition-colors flex items-center justify-between">
                                 <span>{{ $relCat->name }}</span>
-                                <span class="material-icons text-sm">arrow_forward</span>
+                                <span class="material-icons text-sm" aria-hidden="true">arrow_forward</span>
                             </a>
                         </li>
                     @endforeach
@@ -132,7 +132,7 @@
                     <p class="text-xs text-white/80 mb-4 leading-relaxed">Can't find what you're looking for? Talk to our support team.</p>
                     <a href="{{ route('kb.ticket.create') }}" class="bg-white text-primary px-4 py-2 rounded-lg text-xs font-bold hover:bg-background-light transition-colors inline-block">Contact Support</a>
                 </div>
-                <span class="material-icons absolute -right-4 -bottom-4 text-white/10 text-8xl transform -rotate-12 group-hover:scale-110 transition-transform">support_agent</span>
+                <span class="material-icons absolute -right-4 -bottom-4 text-white/10 text-8xl transform -rotate-12 group-hover:scale-110 transition-transform" aria-hidden="true">support_agent</span>
             </div>
         </div>
     </aside>

@@ -35,13 +35,13 @@
             <div class="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400">
                 @if($article->read_time)
                 <span class="flex items-center gap-2">
-                    <span class="material-icons text-base">schedule</span>
+                    <span class="material-icons text-base" aria-hidden="true">schedule</span>
                     {{ $article->read_time }} min read
                 </span>
                 @endif
                 @if($article->updated_at)
                 <span class="flex items-center gap-2">
-                    <span class="material-icons text-base">update</span>
+                    <span class="material-icons text-base" aria-hidden="true">update</span>
                     Updated {{ $article->updated_at->format('M d, Y') }}
                 </span>
                 @endif
@@ -69,18 +69,18 @@
                 <h3 class="font-bold text-lg mb-6 text-slate-900 dark:text-white">Was this article helpful?</h3>
                 <div class="flex justify-center gap-4">
                     <button id="btn-yes" onclick="submitFeedback('yes')" class="flex items-center gap-2 px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-700 hover:text-primary hover:border-primary transition-all">
-                        <span class="material-icons">thumb_up</span>
+                        <span class="material-icons" aria-hidden="true">thumb_up</span>
                         <span id="yes-count">Yes ({{ $article->helpful_yes_count }})</span>
                     </button>
                     <button id="btn-no" onclick="submitFeedback('no')" class="flex items-center gap-2 px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-700 hover:text-red-500 hover:border-red-500 transition-all">
-                        <span class="material-icons">thumb_down</span>
+                        <span class="material-icons" aria-hidden="true">thumb_down</span>
                         <span id="no-count">No ({{ $article->helpful_no_count }})</span>
                     </button>
                 </div>
             </div>
             <div id="feedback-thanks" class="hidden">
                 <div class="flex items-center justify-center gap-3 text-primary">
-                    <span class="material-icons text-3xl">check_circle</span>
+                    <span class="material-icons text-3xl" aria-hidden="true">check_circle</span>
                     <span class="font-semibold text-lg">Thanks for your feedback!</span>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                     <p class="text-xs text-white/80 mb-4 leading-relaxed">Can't find what you're looking for? Talk to our support team.</p>
                     <a href="{{ route('kb.ticket.create') }}" class="bg-white text-primary px-4 py-2 rounded-lg text-xs font-bold hover:bg-background-light transition-colors inline-block">Contact Support</a>
                 </div>
-                <span class="material-icons absolute -right-4 -bottom-4 text-white/10 text-8xl transform -rotate-12 group-hover:scale-110 transition-transform">support_agent</span>
+                <span class="material-icons absolute -right-4 -bottom-4 text-white/10 text-8xl transform -rotate-12 group-hover:scale-110 transition-transform" aria-hidden="true">support_agent</span>
             </div>
         </div>
     </aside>

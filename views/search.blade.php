@@ -92,7 +92,7 @@
         @else
             <!-- Empty State -->
             <div class="text-center py-16">
-                <span class="material-icons text-6xl text-slate-300 mb-4 block">search_off</span>
+                <span class="material-icons text-6xl text-slate-300 mb-4 block" aria-hidden="true">search_off</span>
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">No results found</h2>
                 <p class="text-slate-500 dark:text-slate-400 mb-6">Try different keywords or browse our categories.</p>
                 <a href="{{ route('kb.categories') }}" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors">
@@ -105,7 +105,7 @@
         <div class="mt-16 bg-primary/5 rounded-2xl border-2 border-dashed border-primary/20 p-8 text-center">
             <div class="max-w-md mx-auto">
                 <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span class="material-icons text-3xl">support_agent</span>
+                    <span class="material-icons text-3xl" aria-hidden="true">support_agent</span>
                 </div>
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-2">Can't find what you're looking for?</h2>
                 <p class="text-slate-600 dark:text-slate-400 mb-6">Our support engineers are ready to help you with any technical challenges or questions.</p>
