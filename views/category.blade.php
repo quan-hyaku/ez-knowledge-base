@@ -9,7 +9,7 @@
         <div class="space-y-8">
             @forelse($allCategories as $cat)
                 <div>
-                    <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">{{ $cat->name }}</h5>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">{{ $cat->name }}</h2>
                     <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                         @foreach($cat->articles as $catArticle)
                             <li>
@@ -100,7 +100,7 @@
     <aside aria-label="Category details" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pl-4 border-l border-slate-200 dark:border-slate-800">
         <!-- Category Stats Box -->
         <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-8">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Category Stats</h4>
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Category Stats</h2>
             <div class="space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-sm text-slate-600 dark:text-slate-400">Total Articles</span>
@@ -112,7 +112,7 @@
         <!-- Related Categories -->
         @if($relatedCategories && $relatedCategories->count() > 0)
             <div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-slate-200 dark:border-slate-800 mb-8">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Other Categories</h4>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-4">Other Categories</h2>
                 <ul class="space-y-3">
                     @foreach($relatedCategories as $relCat)
                         <li>
@@ -130,7 +130,7 @@
         <div class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
             <div class="bg-primary rounded-xl p-6 text-white relative overflow-hidden group cursor-pointer">
                 <div class="relative z-10">
-                    <h4 class="font-bold mb-2">Need Help?</h4>
+                    <h3 class="font-bold mb-2">Need Help?</h3>
                     <p class="text-xs text-white/80 mb-4 leading-relaxed">Can't find what you're looking for? Talk to our support team.</p>
                     <a href="{{ route('kb.ticket.create') }}" class="bg-white text-primary px-4 py-2 rounded-lg text-xs font-bold hover:bg-background-light transition-colors inline-block">Contact Support</a>
                 </div>

@@ -38,7 +38,7 @@
         <div class="lg:col-span-1">
             <!-- Trending Topics -->
             <div class="bg-white dark:bg-background-dark/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 mb-6">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Trending Topics</h3>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Trending Topics</h2>
                 @if($categories->isNotEmpty() && $categories->first()->articles->isNotEmpty())
                     <ul class="space-y-3">
                         @foreach($categories->first()->articles->take(3) as $article)
@@ -57,7 +57,7 @@
 
             <!-- Need more help? -->
             <div class="bg-gradient-to-br from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 border border-primary/20 rounded-xl p-6">
-                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Need more help?</h3>
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Need more help?</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-400 mb-4">Can't find what you're looking for? Our team is here to help.</p>
                 <a href="{{ route('kb.ticket.create') }}" class="block w-full text-center px-4 py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition-colors">
                     Submit a Ticket
@@ -97,7 +97,7 @@
                     <div class="col-span-full">
                         <div class="bg-white dark:bg-background-dark/50 border border-slate-200 dark:border-slate-800 rounded-xl p-12 text-center">
                             <span class="material-icons text-5xl text-slate-300 dark:text-slate-600 mb-4 block" aria-hidden="true">folder_open</span>
-                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">No Categories Found</h3>
+                            <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-2">No Categories Found</h2>
                             <p class="text-slate-600 dark:text-slate-400">Categories are being set up. Please check back soon.</p>
                         </div>
                     </div>

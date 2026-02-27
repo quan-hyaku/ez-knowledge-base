@@ -6,7 +6,7 @@
     <aside aria-label="Category navigation" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pr-4">
         <div class="space-y-8">
             <div>
-                <h5 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">{{ $category->name }}</h5>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">{{ $category->name }}</h2>
                 <ul class="space-y-3 text-sm text-slate-600 dark:text-slate-400">
                     @foreach($sidebarArticles as $sideArticle)
                     <li>
@@ -68,7 +68,7 @@
         <!-- Feedback Widget -->
         <div id="feedback-widget" class="mt-12 bg-slate-100 dark:bg-slate-800/40 rounded-xl p-8 text-center">
             <div id="feedback-prompt">
-                <h3 class="font-bold text-lg mb-6 text-slate-900 dark:text-white">Was this article helpful?</h3>
+                <h2 class="font-bold text-lg mb-6 text-slate-900 dark:text-white">Was this article helpful?</h2>
                 <div class="flex justify-center gap-4">
                     <button id="btn-yes" onclick="submitFeedback('yes')" class="flex items-center gap-2 px-6 py-2 rounded-full border border-slate-300 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-700 hover:text-primary hover:border-primary transition-all">
                         <span class="material-icons" aria-hidden="true">thumb_up</span>
@@ -91,7 +91,7 @@
 
     <!-- RIGHT SIDEBAR - Table of Contents -->
     <aside aria-label="Table of contents" class="hidden lg:block lg:col-span-3 2xl:col-span-2 h-[calc(100vh-8rem)] sticky top-24 overflow-y-auto pl-4 border-l border-slate-200 dark:border-slate-800">
-        <h5 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-6">On this page</h5>
+        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white mb-6">On this page</h2>
         <nav aria-label="Table of contents">
             <ul class="space-y-4 text-sm">
                 @foreach($toc as $index => $heading)
@@ -102,7 +102,7 @@
         <div class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800">
             <div class="bg-primary rounded-xl p-6 text-white relative overflow-hidden group cursor-pointer">
                 <div class="relative z-10">
-                    <h4 class="font-bold mb-2">Need Help?</h4>
+                    <h3 class="font-bold mb-2">Need Help?</h3>
                     <p class="text-xs text-white/80 mb-4 leading-relaxed">Can't find what you're looking for? Talk to our support team.</p>
                     <a href="{{ route('kb.ticket.create') }}" class="bg-white text-primary px-4 py-2 rounded-lg text-xs font-bold hover:bg-background-light transition-colors inline-block">Contact Support</a>
                 </div>

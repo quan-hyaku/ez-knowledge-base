@@ -86,7 +86,7 @@
             </div>
             @foreach(config('kb.footer.columns', []) as $column)
             <div>
-                <h6 class="text-sm font-bold text-slate-900 dark:text-white mb-4">{{ $column['heading'] }}</h6>
+                <h2 class="text-sm font-bold text-slate-900 dark:text-white mb-4">{{ $column['heading'] }}</h2>
                 <ul class="space-y-2 text-sm text-slate-500">
                     @foreach($column['links'] as $link)
                     <li><a class="hover:text-primary" href="{{ $link['url'] }}">{{ $link['label'] }}</a></li>

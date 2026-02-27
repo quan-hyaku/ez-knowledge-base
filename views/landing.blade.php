@@ -38,7 +38,7 @@
             <div class="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
                 <span class="material-icons text-primary group-hover:text-white" aria-hidden="true">{{ $category->icon ?? 'help' }}</span>
             </div>
-            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ $category->name }}</h3>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-3">{{ $category->name }}</h2>
             <p class="text-slate-600 dark:text-slate-400 leading-relaxed">{{ $category->description }}</p>
             <div class="mt-6 flex items-center text-primary font-medium text-sm">
                 {{ $category->articles_count }} {{ Str::plural('Article', $category->articles_count) }} <span class="material-icons text-sm ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
@@ -77,7 +77,7 @@
                 <a class="flex items-start group @if(!$loop->first) border-t border-slate-100 dark:border-slate-800 pt-6 @endif" href="{{ route('kb.article', [$article->category->slug, $article->slug]) }}">
                     <span class="material-icons text-primary/40 mt-1 mr-4" aria-hidden="true">description</span>
                     <div>
-                        <h4 class="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">{{ $article->title }}</h4>
+                        <h3 class="font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">{{ $article->title }}</h3>
                         <p class="text-sm text-slate-500 mt-1">{{ $article->excerpt }}</p>
                     </div>
                 </a>
