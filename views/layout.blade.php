@@ -51,6 +51,10 @@
                 </nav>
             </div>
             <div class="flex items-center gap-4">
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu">
+                    <span class="material-icons" aria-hidden="true">menu</span>
+                </button>
                 <div class="relative hidden sm:block">
                     <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
                         <span class="material-icons text-sm" aria-hidden="true">search</span>
@@ -66,6 +70,44 @@
             </div>
         </div>
     </header>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu-backdrop" class="fixed inset-0 z-40 bg-black/50 hidden" aria-hidden="true"></div>
+    <nav id="mobile-menu" class="fixed top-0 right-0 z-50 h-full w-72 max-w-[80vw] bg-white dark:bg-slate-900 shadow-xl transform translate-x-full transition-transform duration-200 ease-in-out" aria-label="Mobile navigation" role="dialog" aria-modal="true">
+        <div class="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-800">
+            <span class="font-bold text-lg text-primary">Menu</span>
+            <button id="mobile-menu-close" class="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary/50" aria-label="Close navigation menu">
+                <span class="material-icons" aria-hidden="true">close</span>
+            </button>
+        </div>
+        <div class="p-4 space-y-1">
+            <a href="{{ route('kb.landing') }}" class="mobile-menu-link flex items-center gap-3 px-3 py-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-medium">
+                <span class="material-icons text-slate-400" aria-hidden="true">home</span>
+                Home
+            </a>
+            <a href="{{ route('kb.categories') }}" class="mobile-menu-link flex items-center gap-3 px-3 py-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-medium">
+                <span class="material-icons text-slate-400" aria-hidden="true">category</span>
+                Categories
+            </a>
+            @if(config('kb.support.enabled'))
+            <a href="{{ route('kb.ticket.create') }}" class="mobile-menu-link flex items-center gap-3 px-3 py-3 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors font-medium">
+                <span class="material-icons text-slate-400" aria-hidden="true">support_agent</span>
+                {{ config('kb.support.label') }}
+            </a>
+            @endif
+        </div>
+        <div class="p-4 border-t border-slate-200 dark:border-slate-800">
+            <form method="GET" action="{{ route('kb.search') }}">
+                <label for="mobile-search" class="sr-only">Search knowledge base</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
+                        <span class="material-icons text-sm" aria-hidden="true">search</span>
+                    </span>
+                    <input id="mobile-search" class="mobile-menu-link w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary" placeholder="{{ config('kb.search.placeholder') }}" type="text" name="q" value="{{ request('q') }}" aria-label="Search knowledge base"/>
+                </div>
+            </form>
+        </div>
+    </nav>
 
     <div id="main-content" class="w-full px-6 lg:px-10 py-8">
         @yield('content')
@@ -100,6 +142,64 @@
         </div>
     </footer>
 
+    <script>
+    (function() {
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const backdrop = document.getElementById('mobile-menu-backdrop');
+        const closeBtn = document.getElementById('mobile-menu-close');
+        const menuLinks = menu.querySelectorAll('.mobile-menu-link');
+        const focusableEls = [closeBtn, ...menuLinks];
+
+        function openMenu() {
+            menu.classList.remove('translate-x-full');
+            menu.classList.add('translate-x-0');
+            backdrop.classList.remove('hidden');
+            menuBtn.setAttribute('aria-expanded', 'true');
+            closeBtn.focus();
+        }
+
+        function closeMenu() {
+            menu.classList.add('translate-x-full');
+            menu.classList.remove('translate-x-0');
+            backdrop.classList.add('hidden');
+            menuBtn.setAttribute('aria-expanded', 'false');
+            menuBtn.focus();
+        }
+
+        menuBtn.addEventListener('click', openMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        backdrop.addEventListener('click', closeMenu);
+
+        menuLinks.forEach(function(link) {
+            if (link.tagName === 'A') {
+                link.addEventListener('click', closeMenu);
+            }
+        });
+
+        menu.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMenu();
+                return;
+            }
+            if (e.key === 'Tab') {
+                var first = focusableEls[0];
+                var last = focusableEls[focusableEls.length - 1];
+                if (e.shiftKey) {
+                    if (document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    }
+                } else {
+                    if (document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+        });
+    })();
+    </script>
     @stack('scripts')
 </body>
 </html>
