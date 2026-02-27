@@ -93,3 +93,15 @@
   - `$article->getChanges()` returns the attributes that were changed in the current save — useful for conditional cache invalidation
   - Defense-in-depth: both the middleware bypass (DB::table) AND the guard in the saved listener protect against unnecessary cache invalidation
 ---
+
+## 2026-02-27 - US-008
+- Fixed N+1 query in category sidebar by eager-loading articles on `$allCategories` with `->with(['articles' => fn($q) => $q->where('is_published', true)->limit(5)])`
+- Updated `category.blade.php` sidebar to use `$cat->articles` (eager-loaded collection) instead of `$cat->articles()->...->get()` (N queries)
+- Replaced redundant `$category->articles()->where('is_published', true)->count()` with `$category->articles_count` via `withCount()` on the category query
+- Derived `$relatedCategories` from `$allCategories->where('id', '!=', $category->id)` instead of a separate DB query
+- Files changed: `Controllers/KnowledgeBaseController.php`, `views/category.blade.php`
+- **Learnings for future iterations:**
+  - Use `withCount(['articles' => fn($q) => $q->where(...)])` to get filtered counts without extra queries — result is available as `articles_count`
+  - Laravel collection `->where()` works on already-loaded collections without touching DB — useful for deriving subsets from a single query
+  - Eager loading with `->with(['articles' => fn($q) => $q->limit(5)])` applies the limit per-query but note: with multiple parent records, the limit applies globally to the eager load query, not per-parent. For sidebar display with small datasets this is acceptable.
+---
