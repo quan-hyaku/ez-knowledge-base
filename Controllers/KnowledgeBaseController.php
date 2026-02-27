@@ -116,6 +116,19 @@ class KnowledgeBaseController
             ->limit(20)
             ->get();
 
+        // Get previous and next articles within the same category (ordered by title)
+        $prevArticle = $category->articles()
+            ->where('is_published', true)
+            ->where('title', '<', $article->title)
+            ->orderBy('title', 'desc')
+            ->first(['title', 'slug']);
+
+        $nextArticle = $category->articles()
+            ->where('is_published', true)
+            ->where('title', '>', $article->title)
+            ->orderBy('title', 'asc')
+            ->first(['title', 'slug']);
+
         // Parse markdown body to HTML
         $parsedBody = Str::markdown($article->body, [
             'html_input' => 'escape',
@@ -131,7 +144,7 @@ class KnowledgeBaseController
         // Extract h2 headings for TOC from parsed HTML
         $toc = $this->extractHeadings($parsedBody);
 
-        return view('kb::article', compact('article', 'category', 'sidebarArticles', 'toc', 'parsedBody'));
+        return view('kb::article', compact('article', 'category', 'sidebarArticles', 'toc', 'parsedBody', 'prevArticle', 'nextArticle'));
     }
 
     public function feedback(int $id, Request $request)

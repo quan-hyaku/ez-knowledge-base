@@ -58,10 +58,26 @@
         <!-- Prev/Next Navigation -->
         <nav aria-label="Article navigation" class="flex justify-between items-center my-12 pt-8 border-t border-slate-200 dark:border-slate-800">
             <div>
-                <!-- Previous article link can go here -->
+                @if($prevArticle)
+                <a href="{{ route('kb.article', [$category->slug, $prevArticle->slug]) }}" class="group flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+                    <span class="material-icons text-xl" aria-hidden="true">arrow_back</span>
+                    <span>
+                        <span class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Previous</span>
+                        <span class="block text-sm font-medium text-slate-900 dark:text-white group-hover:text-primary transition-colors">{{ $prevArticle->title }}</span>
+                    </span>
+                </a>
+                @endif
             </div>
             <div>
-                <!-- Next article link can go here -->
+                @if($nextArticle)
+                <a href="{{ route('kb.article', [$category->slug, $nextArticle->slug]) }}" class="group flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-right">
+                    <span>
+                        <span class="block text-xs uppercase tracking-wider text-slate-400 mb-1">Next</span>
+                        <span class="block text-sm font-medium text-slate-900 dark:text-white group-hover:text-primary transition-colors">{{ $nextArticle->title }}</span>
+                    </span>
+                    <span class="material-icons text-xl" aria-hidden="true">arrow_forward</span>
+                </a>
+                @endif
             </div>
         </nav>
 
