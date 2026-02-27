@@ -119,3 +119,16 @@
   - Since middleware wraps the controller call (`$next($request)` runs the controller first), the controller can set attributes that the middleware reads after `$next()` returns
   - Removing unused imports (like `KbCategory`) keeps the code clean and avoids confusion about dependencies
 ---
+
+## 2026-02-27 - US-010
+- Added visually hidden "Skip to main content" link as the first focusable element in `layout.blade.php`, visible on focus with styled appearance
+- Added `id="main-content"` to the main content wrapper `<div>` in `layout.blade.php` (used by all pages via `@yield('content')`)
+- Added `aria-label` to all `<nav>` elements: "Main navigation" (layout header), "Breadcrumb" (ticket), "Article navigation" (article prev/next), "Table of contents" (article TOC)
+- Added `aria-label` to all `<aside>` elements: "Category navigation" (article + category left sidebar), "Table of contents" (article right sidebar), "Category details" (category right sidebar), "Search filters" (search sidebar)
+- Files changed: `views/layout.blade.php`, `views/article.blade.php`, `views/category.blade.php`, `views/search.blade.php`, `views/ticket.blade.php`
+- **Learnings for future iterations:**
+  - Not all pages use `<main>` tags — landing, categories, and ticket pages use `<div>` and `<section>` directly inside `@yield('content')`. The `id="main-content"` was placed on the layout wrapper div to cover all pages
+  - Tailwind's `sr-only` + `focus:not-sr-only` pattern is the standard way to create visually hidden skip links that appear on focus
+  - Each `<nav>` and `<aside>` needs a *unique* `aria-label` within the page to help screen reader users distinguish between landmarks
+  - The categories.blade.php and landing.blade.php don't use `<nav>`, `<aside>`, or `<main>` tags — they use `<section>` and `<div>` elements
+---
