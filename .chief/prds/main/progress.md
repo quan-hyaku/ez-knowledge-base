@@ -30,3 +30,16 @@
   - `hash_equals()` requires both arguments to be strings — always null-coalesce header values
   - The first argument to `hash_equals()` should be the known/expected value (the config key)
 ---
+
+## 2026-02-27 - US-003
+- Added server-side input validation to feedback, ticket, and API search endpoints
+- Feedback endpoint: type-hinted `$id` as `int`, added `required|in:yes,no` validation for `vote` parameter
+- Ticket endpoint: changed `category` to `nullable|in:billing,technical,feature,general,other`, added `max:10000` to `description`
+- API search endpoint: added validation for `q` (`nullable|string|max:500`) and `category` (`nullable|string|exists:kb_categories,slug`)
+- Files changed: `Controllers/KnowledgeBaseController.php`, `Controllers/TicketController.php`, `Controllers/ApiController.php`
+- **Learnings for future iterations:**
+  - Laravel's `$request->validate()` automatically returns 422 with error details for web (JSON) and redirects back with errors for web form submissions
+  - Ticket form category options are: billing, technical, feature, general, other (defined in `ticket.blade.php`)
+  - The `exists:table,column` validation rule checks against the database directly — useful for validating slugs
+  - Feedback endpoint sends JSON via fetch API, so Laravel validation returns JSON 422 automatically
+---
