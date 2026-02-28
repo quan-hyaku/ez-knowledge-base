@@ -1,11 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace EzKnowledgeBase\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class KbArticle extends Model
 {
+    use HasFactory;
+
     protected $table = 'kb_articles';
 
     protected $fillable = [
@@ -19,9 +25,6 @@ class KbArticle extends Model
         'read_time_minutes',
         'is_published',
         'is_featured',
-        'helpful_yes_count',
-        'helpful_no_count',
-        'view_count',
         'published_at',
     ];
 
@@ -31,13 +34,23 @@ class KbArticle extends Model
         'published_at' => 'datetime',
     ];
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(KbCategory::class, 'kb_category_id');
     }
 
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(KbTag::class, 'kb_article_tag');
+    }
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('is_published', true);
+    }
+
+    public function scopeFeatured(Builder $query): Builder
+    {
+        return $query->where('is_featured', true);
     }
 }

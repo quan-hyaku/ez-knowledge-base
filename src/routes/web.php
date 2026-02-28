@@ -4,7 +4,14 @@ use Illuminate\Support\Facades\Route;
 use EzKnowledgeBase\Http\Controllers\KnowledgeBaseController;
 use EzKnowledgeBase\Http\Controllers\SearchController;
 use EzKnowledgeBase\Http\Controllers\TicketController;
+use EzKnowledgeBase\Http\Controllers\InboundWebhookController;
 use EzKnowledgeBase\Http\Middleware\TrackArticleView;
+use EzKnowledgeBase\Http\Middleware\VerifyBrevoWebhook;
+
+// Webhook route (outside web middleware group — no CSRF, no session)
+Route::post('/webhook/kb/inbound', [InboundWebhookController::class, 'handle'])
+    ->middleware([VerifyBrevoWebhook::class, 'throttle:120,1'])
+    ->name('kb.webhook.inbound');
 
 Route::middleware('web')->group(function () {
     Route::get('/help-center', [KnowledgeBaseController::class, 'landing'])->name('kb.landing');
@@ -13,6 +20,6 @@ Route::middleware('web')->group(function () {
     Route::get('/help-center/{category_slug}/{slug}', [KnowledgeBaseController::class, 'article'])->name('kb.article')->middleware(TrackArticleView::class);
     Route::get('/help-center/search', [SearchController::class, 'search'])->name('kb.search');
     Route::get('/help-center/ticket', [TicketController::class, 'create'])->name('kb.ticket.create');
-    Route::post('/help-center/ticket', [TicketController::class, 'store'])->name('kb.ticket.store')->middleware('throttle:3,60');
+    Route::post('/help-center/ticket', [TicketController::class, 'store'])->name('kb.ticket.store')->middleware('throttle:5,10');
     Route::post('/help-center/article/{id}/feedback', [KnowledgeBaseController::class, 'feedback'])->name('kb.article.feedback')->middleware('throttle:10,1');
 });

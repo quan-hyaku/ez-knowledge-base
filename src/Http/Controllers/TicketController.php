@@ -2,10 +2,11 @@
 
 namespace EzKnowledgeBase\Http\Controllers;
 
-use App\Models\KbArticle;
-use App\Models\KbCategory;
-use App\Models\KbTicket;
+use EzKnowledgeBase\Models\KbArticle;
+use EzKnowledgeBase\Models\KbCategory;
+use EzKnowledgeBase\Models\KbTicket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class TicketController
 {
@@ -26,14 +27,40 @@ class TicketController
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        // Verify Cloudflare Turnstile if configured
+        if (config('services.turnstile.secret_key')) {
+            $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                'secret' => config('services.turnstile.secret_key'),
+                'response' => $request->input('cf-turnstile-response'),
+                'remoteip' => $request->ip(),
+            ]);
+
+            if (! $response->json('success')) {
+                return back()->withErrors(['turnstile' => 'Please complete the verification.'])->withInput();
+            }
+        }
+
+        $user = $request->user();
+
+        $rules = [
             'subject' => 'required|string|max:255',
-            'description' => 'required|string',
-            'category' => 'nullable|string',
+            'description' => 'required|string|max:10000',
+            'category' => 'nullable|string|max:255',
             'urgency' => 'nullable|in:low,medium,high',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-        ]);
+        ];
+
+        if (! $user) {
+            $rules['name'] = 'required|string|max:255';
+            $rules['email'] = 'required|email';
+        }
+
+        $validated = $request->validate($rules);
+
+        if ($user) {
+            $validated['user_id'] = $user->id;
+            $validated['name'] = $validated['name'] ?? $user->name;
+            $validated['email'] = $validated['email'] ?? $user->email;
+        }
 
         KbTicket::create($validated);
 

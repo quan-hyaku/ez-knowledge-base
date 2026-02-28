@@ -2,7 +2,7 @@
 
 namespace EzKnowledgeBase\Tests\Feature\Web;
 
-use App\Models\KbTicket;
+use EzKnowledgeBase\Models\KbTicket;
 use EzKnowledgeBase\Tests\TestCase;
 
 class TicketTest extends TestCase

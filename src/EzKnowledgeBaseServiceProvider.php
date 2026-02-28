@@ -2,9 +2,12 @@
 
 namespace EzKnowledgeBase;
 
-use App\Models\KbArticle;
-use App\Models\KbCategory;
+use EzKnowledgeBase\Events\KbTicketReplied;
+use EzKnowledgeBase\Listeners\SendTicketReplyNotification;
+use EzKnowledgeBase\Models\KbArticle;
+use EzKnowledgeBase\Models\KbCategory;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class EzKnowledgeBaseServiceProvider extends ServiceProvider
@@ -41,6 +44,9 @@ class EzKnowledgeBaseServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'kb-migrations');
+
+        // Register ticket reply email listener
+        Event::listen(KbTicketReplied::class, SendTicketReplyNotification::class);
 
         // Register cache invalidation listeners
         if (class_exists(KbCategory::class)) {

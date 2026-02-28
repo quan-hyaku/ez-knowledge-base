@@ -21,6 +21,9 @@ return [
 
         // Copyright holder name (shown in footer)
         'copyright' => env('KB_BRAND_COPYRIGHT', 'Weeklify Inc.'),
+
+        // Physical address (shown in email footer, leave empty to hide)
+        'address' => env('KB_BRAND_ADDRESS', ''),
     ],
 
     /*
@@ -189,6 +192,64 @@ return [
 
         // Rate limit: max requests per minute per client
         'rate_limit' => env('KB_API_RATE_LIMIT', 60),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Email Reply Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure outbound ticket reply emails and inbound email processing.
+    | When enabled, admin/staff replies to tickets will email the customer,
+    | and customers can reply directly to those emails via Brevo inbound parse.
+    |
+    */
+
+    'reply' => [
+        // Enable/disable outbound ticket reply emails
+        'enabled' => env('KB_REPLY_ENABLED', false),
+
+        // Domain for reply-to addresses (e.g. 'parse.weeklify.io')
+        'domain' => env('KB_REPLY_DOMAIN', ''),
+
+        // From address for outbound ticket reply emails
+        'from_address' => env('KB_REPLY_FROM_ADDRESS', 'noreply@weeklify.io'),
+
+        // From name for outbound ticket reply emails
+        'from_name' => env('KB_REPLY_FROM_NAME', 'Weeklify Support'),
+
+        // HMAC secret for token generation (falls back to app.key)
+        'token_secret' => env('KB_REPLY_TOKEN_SECRET', null),
+
+        // Brevo webhook secret for inbound email verification
+        'webhook_secret' => env('KB_REPLY_WEBHOOK_SECRET', null),
+
+        // Spam score threshold — reject inbound emails scoring at or above this
+        'spam_threshold' => 5.0,
+
+        // Token TTL in seconds (default 30 days)
+        'token_ttl' => env('KB_REPLY_TOKEN_TTL', 2592000),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure the user model and admin email addresses for the ticket
+    | system. Add the CanKbTicket trait to your User model for customer
+    | ticket features, and ManageKbTicket for admin/agent features.
+    |
+    */
+
+    'users' => [
+        // The fully-qualified User model class
+        'model' => env('KB_USER_MODEL', 'App\\Models\\User'),
+
+        // Email addresses of users who are KB admins
+        'admins' => [
+            // 'admin@example.com',
+        ],
     ],
 
 ];

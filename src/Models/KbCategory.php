@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace EzKnowledgeBase\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KbCategory extends Model
 {
+    use HasFactory;
+
     protected $table = 'kb_categories';
 
     protected $fillable = [
@@ -21,7 +25,7 @@ class KbCategory extends Model
         'is_active' => 'boolean',
     ];
 
-    public function articles()
+    public function articles(): HasMany
     {
         return $this->hasMany(KbArticle::class);
     }

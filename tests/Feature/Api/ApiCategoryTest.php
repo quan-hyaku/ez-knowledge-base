@@ -2,8 +2,8 @@
 
 namespace EzKnowledgeBase\Tests\Feature\Api;
 
-use App\Models\KbArticle;
-use App\Models\KbCategory;
+use EzKnowledgeBase\Models\KbArticle;
+use EzKnowledgeBase\Models\KbCategory;
 use EzKnowledgeBase\Tests\TestCase;
 
 class ApiCategoryTest extends TestCase

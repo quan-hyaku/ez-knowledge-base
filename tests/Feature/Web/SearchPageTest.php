@@ -2,8 +2,8 @@
 
 namespace EzKnowledgeBase\Tests\Feature\Web;
 
-use App\Models\KbArticle;
-use App\Models\KbCategory;
+use EzKnowledgeBase\Models\KbArticle;
+use EzKnowledgeBase\Models\KbCategory;
 use EzKnowledgeBase\Tests\TestCase;
 
 class SearchPageTest extends TestCase

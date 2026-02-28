@@ -2,7 +2,7 @@
 
 namespace EzKnowledgeBase\Tests\Feature\Web;
 
-use App\Models\KbCategory;
+use EzKnowledgeBase\Models\KbCategory;
 use EzKnowledgeBase\Tests\TestCase;
 
 class CategoryPageTest extends TestCase

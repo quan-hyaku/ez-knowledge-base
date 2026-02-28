@@ -2,8 +2,8 @@
 
 namespace EzKnowledgeBase\Http\Middleware;
 
-use App\Models\KbArticle;
-use App\Models\KbCategory;
+use EzKnowledgeBase\Models\KbArticle;
+use EzKnowledgeBase\Models\KbCategory;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;

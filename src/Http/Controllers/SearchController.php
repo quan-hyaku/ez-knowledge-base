@@ -2,8 +2,8 @@
 
 namespace EzKnowledgeBase\Http\Controllers;
 
-use App\Models\KbArticle;
-use App\Models\KbCategory;
+use EzKnowledgeBase\Models\KbArticle;
+use EzKnowledgeBase\Models\KbCategory;
 use Illuminate\Http\Request;
 
 class SearchController

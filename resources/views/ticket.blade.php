@@ -201,6 +201,16 @@
                         </div>
                     </div>
 
+                    <!-- Cloudflare Turnstile -->
+                    @if(config('services.turnstile.site_key'))
+                    <div>
+                        <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+                        @error('turnstile')
+                            <p class="text-sm mt-2 text-red-500">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    @endif
+
                     <!-- Submit Button and Info -->
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4">
                         <button
@@ -267,3 +277,9 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+@if(config('services.turnstile.site_key'))
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+@endif
+@endpush
